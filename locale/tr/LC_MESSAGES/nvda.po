@@ -1,0 +1,242 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: EasyTableCopy 54.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-05 20:00+0300\n"
+"PO-Revision-Date: 2026-02-07 15:05+0300\n"
+"Last-Translator: Cagri\n"
+"Language-Team: \n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.8\n"
+
+#. --- KOD İÇİNDEKİ _() MESAJLARI ---
+#. Eklenti Kategori Adı
+msgid "EasyTableCopy"
+msgstr "EasyTableCopy"
+
+#. --- GİRDİ YARDIM MESAJLARI (DOCSTRINGS) ---
+#. Bu kısımlar kodda _() içinde değildir ama NVDA bunları otomatik eşleştirir.
+#. Poedit'te "Update" yaparsanız bunlar SİLİNİR. Silinmemeli.
+msgid "Opens Copy Menu (Web) or Copies List (Desktop)."
+msgstr "Kopyalama menüsünü açar (Web) veya listeyi kopyalar (Masaüstü)."
+
+msgid "Marks/Unmarks current row."
+msgstr "Geçerli satırı işaretler veya işareti kaldırır."
+
+msgid "Marks/Unmarks current column."
+msgstr "Geçerli sütunu işaretler veya işareti kaldırır."
+
+msgid "Clears selections."
+msgstr "Tüm işaretli seçimleri temizler."
+
+#. --- ARAYÜZ MESAJLARI ---
+msgid "Table"
+msgstr "Tablo"
+
+msgid "Row"
+msgstr "Satır"
+
+msgid "Cell"
+msgstr "Hücre"
+
+msgid "Selection failed."
+msgstr "Seçim başarısız."
+
+msgid "Multi-selection failed."
+msgstr "Çoklu seçim başarısız."
+
+msgid "Error."
+msgstr "Hata."
+
+msgid "Clipboard repair error."
+msgstr "Pano onarım hatası."
+
+msgid "Table not found."
+msgstr "Tablo bulunamadı."
+
+msgid "Table is empty."
+msgstr "Tablo boş."
+
+msgid "Target not found."
+msgstr "Hedef bulunamadı."
+
+msgid "Index error."
+msgstr "İndeks hatası."
+
+msgid "Not a cell."
+msgstr "Bir hücre değil."
+
+msgid "Not a row."
+msgstr "Bir satır değil."
+
+msgid "Error: No items to copy."
+msgstr "Hata: Kopyalanacak öğe yok."
+
+msgid "Copy failed."
+msgstr "Kopyalama başarısız."
+
+#. Geri Bildirim Mesajları (Değişkenli)
+msgid "{label} copied{count} (Raw)."
+msgstr "{label} kopyalandı{count} (Ham)."
+
+msgid "{label} copied{count}."
+msgstr "{label} kopyalandı{count}."
+
+msgid "{label} copied{count} (Text)."
+msgstr "{label} kopyalandı{count} (Metin)."
+
+msgid "{label} copied{count} (Raw - Clipboard Busy)."
+msgstr "{label} kopyalandı{count} (Ham - Pano Meşgul)."
+
+msgid "Scanning table..."
+msgstr "Tablo taranıyor..."
+
+msgid "Table copied (1 row) [Reconstructed]."
+msgstr "Tablo kopyalandı (1 satır) [Yeniden Oluşturuldu]."
+
+msgid "Table copied ({count} rows) [Reconstructed]."
+msgstr "Tablo kopyalandı ({count} satır) [Yeniden Oluşturuldu]."
+
+msgid "Selection copied."
+msgstr "Seçim kopyalandı."
+
+msgid "Copied 1 row."
+msgstr "1 satır kopyalandı."
+
+msgid "Copied {count} rows."
+msgstr "{count} satır kopyalandı."
+
+msgid "Copied 1 column."
+msgstr "1 sütun kopyalandı."
+
+msgid "Copied {count} columns."
+msgstr "{count} sütun kopyalandı."
+
+msgid "Folder is empty."
+msgstr "Klasör boş."
+
+msgid "Folder copied (1 item)."
+msgstr "Klasör kopyalandı (1 öğe)."
+
+msgid "Folder copied ({count} items)."
+msgstr "Klasör kopyalandı ({count} öğe)."
+
+msgid "No items found."
+msgstr "Öğe bulunamadı."
+
+msgid "List copied (1 item)."
+msgstr "Liste kopyalandı (1 öğe)."
+
+msgid "List copied ({count} items)."
+msgstr "Liste kopyalandı ({count} öğe)."
+
+msgid "Focus is not on a list or table."
+msgstr "Odak bir liste veya tablo üzerinde değil."
+
+msgid "No selection to clear."
+msgstr "Temizlenecek seçim yok."
+
+msgid "Selections cleared."
+msgstr "Seçimler temizlendi."
+
+msgid "Cannot mark rows while columns are selected."
+msgstr "Sütunlar seçiliyken satır işaretlenemez."
+
+msgid "Cannot mark columns while rows are selected."
+msgstr "Satırlar seçiliyken sütun işaretlenemez."
+
+#. İşaretleme Geri Bildirimleri
+msgid "Row Unmarked."
+msgstr "Satır işareti kaldırıldı."
+
+msgid "Row Unmarked. Total: 1 row"
+msgstr "Satır işareti kaldırıldı. Toplam: 1 satır"
+
+msgid "Row Unmarked. Total: {count} rows"
+msgstr "Satır işareti kaldırıldı. Toplam: {count} satır"
+
+msgid "Row Marked. Total: 1 row"
+msgstr "Satır işaretlendi. Toplam: 1 satır"
+
+msgid "Row Marked. Total: {count} rows"
+msgstr "Satır işaretlendi. Toplam: {count} satır"
+
+msgid "Column Unmarked."
+msgstr "Sütun işareti kaldırıldı."
+
+msgid "Column Unmarked. Total: 1 column"
+msgstr "Sütun işareti kaldırıldı. Toplam: 1 sütun"
+
+msgid "Column Unmarked. Total: {count} columns"
+msgstr "Sütun işareti kaldırıldı. Toplam: {count} sütun"
+
+msgid "Column Marked. Total: 1 column"
+msgstr "Sütun işaretlendi. Toplam: 1 sütun"
+
+msgid "Column Marked. Total: {count} columns"
+msgstr "Sütun işaretlendi. Toplam: {count} sütun"
+
+#. Menü Öğeleri
+msgid "Copy Table (Standard)"
+msgstr "Tabloyu Kopyala (Standart)"
+
+msgid "Copy Current Row"
+msgstr "Geçerli Satırı Kopyala"
+
+msgid "Copy Table (Reconstructed)"
+msgstr "Tabloyu Kopyala (Yeniden Oluşturulan)"
+
+msgid "Copy Current Column"
+msgstr "Geçerli Sütunu Kopyala"
+
+msgid "Copy Marked ({count} {lbl})"
+msgstr "İşaretlileri Kopyala ({count} {lbl})"
+
+msgid "Clear Selections"
+msgstr "Seçimleri Temizle"
+
+msgid "Cancel"
+msgstr "İptal"
+
+msgid "Not on a table."
+msgstr "Bir tablo üzerinde değil."
+
+#. Değişken Parçaları
+msgid "rows"
+msgstr "satır"
+
+msgid "row"
+msgstr "satır"
+
+msgid "columns"
+msgstr "sütun"
+
+msgid "column"
+msgstr "sütun"
+
+msgid " (1 row)"
+msgstr " (1 satır)"
+
+msgid " ({count} rows)"
+msgstr " ({count} satır)"
+
+msgid " (1 cell)"
+msgstr " (1 hücre)"
+
+msgid " ({count} cells)"
+msgstr " ({count} hücre)"
+
+msgid "No accessible text found."
+msgstr "Erişilebilir metin bulunamadı."
+
+msgid "Clipboard error. Try again."
+msgstr "Pano hatası. Tekrar deneyin."
+
+msgid "Error processing list."
+msgstr "Liste işlenirken hata oluştu."
+
+msgid "Use standard copy (Ctrl+C) in this application."
+msgstr "Bu uygulamada standart kopyalama (Ctrl+C) kullanın."

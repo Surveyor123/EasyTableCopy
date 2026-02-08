@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EasyTableCopy - User Guide</title>
+    <style>
+        body { font-family: "Segoe UI", Arial, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px; }
+        h1 { color: #005a9e; border-bottom: 2px solid #005a9e; padding-bottom: 10px; }
+        h2 { color: #0078d4; margin-top: 30px; }
+        h3 { color: #2b88d8; margin-top: 20px; }
+        code { background-color: #f4f4f4; padding: 2px 5px; border-radius: 4px; font-weight: bold; border: 1px solid #ccc; }
+        ul, ol { margin-bottom: 15px; }
+        li { margin-bottom: 8px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background-color: #f9f9f9; font-weight: bold; }
+        .note { background-color: #fff3cd; border-left: 5px solid #ffc107; padding: 10px; margin: 15px 0; }
+    </style>
+</head>
+<body>
+
+    <h1>EasyTableCopy - User Guide</h1>
+
+    <p><strong>EasyTableCopy</strong> is an NVDA add-on designed to solve a common frustration: copying tables from the Web or lists from Windows into documents (like Word, Excel, or Outlook) without losing formatting, borders, or structure.</p>
+
+    <h2>1. Key Features</h2>
+    <ul>
+        <li><strong>Dual Copy Engine:</strong> Choose between "Standard" mode for best visual fidelity or "Reconstructed" mode for guaranteed structure integrity.</li>
+        <li><strong>Smart Selection:</strong> Easily select non-adjacent rows or specific columns to copy.</li>
+        <li><strong>Desktop Support:</strong> Instantly convert File Explorer lists or application views into copyable tables.</li>
+        <li><strong>Audio Feedback:</strong> Distinct sounds and speech messages keep you informed about the copying process.</li>
+    </ul>
+
+    <h2>2. Web Mode (Browsers)</h2>
+    <p>This feature works in Browse Mode within web browsers (Chrome, Edge, Firefox, etc.).</p>
+
+    <h3>A. The Copy Menu</h3>
+    <p>Navigate inside any table on a website and press <code>NVDA + Alt + T</code> to open the action menu.</p>
+
+    <ul>
+        <li><strong>Copy Table (Standard):</strong>
+            <br>Uses the browser's native copy function.
+            <br><em>Pros:</em> Preserves exact fonts, background colors, and links.
+            <br><em>Cons:</em> Relies on the browser; empty cells might collapse in some target applications.
+        </li>
+        <li><strong>Copy Table (Reconstructed):</strong>
+            <br>The "Safe Mode." The add-on ignores the browser and manually rebuilds the table from scratch.
+            <br><em>Pros:</em> <strong>Guarantees</strong> that empty cells are filled (preserving borders) and enforces grid lines.
+            <br><em>Cons:</em> May lose complex CSS styling (like rounded corners).
+        </li>
+        <li><strong>Copy Current Row:</strong> Copies only the row where your cursor is located (Standard mode).</li>
+        <li><strong>Copy Current Column:</strong> Manually extracts and copies the vertical column where your cursor is located.</li>
+    </ul>
+
+    <h3>B. Smart Selection (Marking)</h3>
+    <p>You can select specific items to copy in a batch. <strong>Note:</strong> You can mark Rows OR Columns, but not both simultaneously.</p>
+
+    <h4>How to Copy Specific Rows:</h4>
+    <ol>
+        <li>Navigate to a row you want to copy.</li>
+        <li>Press <code>Control + Alt + Space</code>. NVDA will confirm: "Row Marked."</li>
+        <li>Move to another row and repeat.</li>
+        <li>Open the menu (<code>NVDA + Alt + T</code>) and select <strong>"Copy Marked"</strong>.</li>
+    </ol>
+
+    <h4>How to Copy Specific Columns:</h4>
+    <ol>
+        <li>Navigate to a cell within the column you want.</li>
+        <li>Press <code>Control + Alt + Shift + Space</code>. NVDA will confirm: "Column Marked."</li>
+        <li>Repeat for other columns.</li>
+        <li>Open the menu and select <strong>"Copy Marked"</strong>.</li>
+    </ol>
+
+    <div class="note">To clear your selections, press <code>Control + Alt + Windows + Space</code> or use the "Clear Selections" option in the menu.</div>
+
+    <h2>3. Desktop Mode (Windows)</h2>
+    <p>EasyTableCopy also works in File Explorer and standard list views in various applications.</p>
+    <ol>
+        <li>Focus on a list (e.g., a folder with files).</li>
+        <li>Press <code>NVDA + Alt + T</code>.</li>
+        <li><strong>Result:</strong> The list is converted into a structured table (with headers like Name, Date, Type) and copied to your clipboard.</li>
+    </ol>
+
+    <h2>4. Shortcuts Cheat Sheet</h2>
+    <p><em>(You can customize these in NVDA Menu -> Preferences -> Input Gestures -> EasyTableCopy)</em></p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Shortcut</th>
+                <th>Function</th>
+                <th>Context</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>NVDA + Alt + T</code></td>
+                <td>Open Menu (Web) / Copy List (Desktop)</td>
+                <td>Everywhere</td>
+            </tr>
+            <tr>
+                <td><code>Ctrl + Alt + Space</code></td>
+                <td>Mark/Unmark Row</td>
+                <td>Web Only</td>
+            </tr>
+            <tr>
+                <td><code>Ctrl + Alt + Shift + Space</code></td>
+                <td>Mark/Unmark Column</td>
+                <td>Web Only</td>
+            </tr>
+            <tr>
+                <td><code>Ctrl + Alt + Win + Space</code></td>
+                <td>Clear All Selections</td>
+                <td>Web Only</td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>
