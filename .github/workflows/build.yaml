@@ -1,0 +1,43 @@
+name: NVDA Eklenti Derleyici
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch: # Bu seçenek sayesinde istediğinde manuel olarak da başlatabilirsin
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Kodları Çek
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive # site_scons içindeki araçları çekmesi için şart
+
+      - name: Python Kur (3.11)
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Gerekli Kütüphaneleri Yükle
+        run: |
+          python -m pip install --upgrade pip
+          pip install scons markdown
+
+      - name: Gettext (msgfmt) Kur
+        run: choco install gettext -y
+
+      - name: Eklentiyi Derle
+        run: |
+          $env:PYTHONPATH = "."
+          python -m SCons
+        shell: pwsh
+
+      - name: Derlenen Eklentiyi Kaydet (Artifact)
+        uses: actions/upload-artifact@v4
+        with:
+          name: EasyTableCopy-Paketi
+          path: "*.nvda-addon"
