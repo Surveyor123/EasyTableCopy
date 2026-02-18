@@ -1,43 +1,56 @@
-name: NVDA Eklenti Derleyici
+name: NVDA Add-on Build and Release
 
 on:
   push:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
-  workflow_dispatch: # Bu seçenek sayesinde istediğinde manuel olarak da başlatabilirsin
+  release:
+    types: [published]
+  workflow_dispatch:
 
 jobs:
   build:
+    name: Build Add-on
     runs-on: windows-latest
+    permissions:
+      contents: write
 
     steps:
-      - name: Kodları Çek
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          submodules: recursive # site_scons içindeki araçları çekmesi için şart
+          submodules: recursive
 
-      - name: Python Kur (3.11)
+      - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Gerekli Kütüphaneleri Yükle
+      - name: Install build dependencies
         run: |
           python -m pip install --upgrade pip
           pip install scons markdown
 
-      - name: Gettext (msgfmt) Kur
+      - name: Install Gettext tools
         run: choco install gettext -y
 
-      - name: Eklentiyi Derle
+      - name: Build add-on
         run: |
           $env:PYTHONPATH = "."
           python -m SCons
         shell: pwsh
 
-      - name: Derlenen Eklentiyi Kaydet (Artifact)
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: EasyTableCopy-Paketi
+          name: addon-package
           path: "*.nvda-addon"
+
+      - name: Attach add-on to Release
+        if: github.event_name == 'release'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: "*.nvda-addon"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
