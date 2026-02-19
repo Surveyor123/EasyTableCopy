@@ -8,7 +8,7 @@
 * **Smart Selection:** Easily select non-adjacent rows or specific columns to copy.
 * **Desktop & Explorer Support:** Instantly convert File Explorer lists or application views into copyable tables. Copy specific columns or combinations of columns.
 * **Cell-Level Copying:** Quickly copy individual cell content without the surrounding table structure.
-* **Table Statistics:** Get instant information about table dimensions (row and column count) anywhere.
+* **Table Statistics:** Get instant information about table (row and column count) anywhere.
 * **Audio Feedback:** Distinct sounds and speech messages keep you informed about the copying process.
 
 ## 2. Web Mode (Browsers)
