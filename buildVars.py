@@ -18,12 +18,20 @@ addon_info = AddonInfo(
 	addon_description=_("""EasyTableCopy is an NVDA add-on designed to solve a common frustration: copying tables from the Web or lists from Windows into documents (like Word, Excel, or Outlook) without losing formatting or layout."""),
 	
 	# version
-	addon_version="2026.2.1",
+	addon_version="2026.4.0",
 	
 	# Brief changelog for this version
 	# Translators: what's new content for the add-on version
-	addon_changelog=_("""Migrated to NVDA Add-on Template structure.
-Fixed issues with WhatsApp grouping and Excel freezing."""),
+	addon_changelog=_("""
+* Added column-specific copying commands for desktop and Explorer (Copy Column 1, Column 2, Column 3, Columns 1-2, Columns 1-3, Columns 1 and 3)
+* Added universal Table Statistics command to announce row and column counts anywhere
+* Added universal Copy Current Cell command for quick cell content extraction
+* Added Copy Marked as Text command for web tables (copies marked rows as plain text)
+* Improved table structure detection for large web tables
+* Optimized performance for large tables with intelligent sampling
+* Enhanced context awareness: commands only work in appropriate contexts (web vs desktop)
+* Updated documentation with all new features (English and Turkish)
+"""),
 	
 	# Author(s)
 	addon_author="Çağrı Doğan <cagrid@hotmail.com>",
