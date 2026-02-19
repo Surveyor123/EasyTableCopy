@@ -586,48 +586,48 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
         if self.is_web_context():
             # Don't process the hotkey on the web
             return
-        self._copy_columns_direct([0], "Column 1")
+        self._copy_columns_direct([0], _("Column 1"))
 
     @script_description(_("Copies second column from current table (desktop only)."))
     def script_copyColumn2(self, gesture):
         """Copy second column - desktop only"""
         if self.is_web_context():
             return
-        self._copy_columns_direct([1], "Column 2")
+        self._copy_columns_direct([1], _("Column 2"))
 
     @script_description(_("Copies third column from current table (desktop only)."))
     def script_copyColumn3(self, gesture):
         """Copy third column - desktop only"""
         if self.is_web_context():
             return
-        self._copy_columns_direct([2], "Column 3")
+        self._copy_columns_direct([2], _("Column 3"))
 
     @script_description(_("Copies first and second columns from current table (desktop only)."))
     def script_copyColumns1and2(self, gesture):
         """Copy columns 1 and 2 - desktop only"""
         if self.is_web_context():
             return
-        self._copy_columns_direct([0, 1], "Columns 1-2")
+        self._copy_columns_direct([0, 1], _("Columns 1-2"))
 
     @script_description(_("Copies first and third columns from current table (desktop only)."))
     def script_copyColumns1and3(self, gesture):
         """Copy columns 1 and 3 - desktop only"""
         if self.is_web_context():
             return
-        self._copy_columns_direct([0, 2], "Columns 1-3")
+        self._copy_columns_direct([0, 2], _("Columns 1-3"))
 
     @script_description(_("Copies first three columns from current table (desktop only)."))
     def script_copyColumns1to3(self, gesture):
         """Copy columns 1, 2, and 3 - desktop only"""
         if self.is_web_context():
             return
-        self._copy_columns_direct([0, 1, 2], "Columns 1-3")
+        self._copy_columns_direct([0, 1, 2], _("Columns 1-3"))
 
     def _copy_columns_direct(self, column_indices, label):
         """Direct column copying for non-web contexts"""
         table = self._get_current_table()
         if not table:
-            ui.message("Not on a table.")
+            ui.message(_("Not on a table."))
             return
         
         # Special handling for Explorer
@@ -649,7 +649,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
                     count = items.Count
                     
                     if count == 0:
-                        ui.message("Folder is empty.")
+                        ui.message(_("Folder is empty."))
                         return
                     
                     winsound.Beep(440, 100)
@@ -678,7 +678,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
                             data_rows.append("\t".join(vals))
                     
                     if not data_rows:
-                        ui.message("No data found.")
+                        ui.message(_("No data found."))
                         return
                     
                     text_rows.extend(data_rows)
@@ -687,7 +687,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
                     
                     if self.copy_manual_safe(html_out, text_out):
                         winsound.Beep(880, 100)
-                        ui.message(f"{label} ({count} items) copied.")
+                        ui.message(_("{label} ({count} items) copied.").format(label=label, count=count))
                     return
             except:
                 pass
@@ -695,7 +695,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
         # Generic table handling for desktop lists
         rows = self.collect_rows_fast(table)
         if not rows:
-            ui.message("Table is empty.")
+            ui.message(_("Table is empty."))
             return
         
         winsound.Beep(440, 100)
@@ -718,7 +718,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
                 text_parts.append("\t".join(row_text))
         
         if not text_parts:
-            ui.message("No data found.")
+            ui.message(_("No data found."))
             return
         
         text_out = "\n".join(text_parts)
@@ -726,7 +726,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
         
         if self.copy_manual_safe(html_out, text_out):
             winsound.Beep(880, 100)
-            ui.message(f"{label} ({len(text_parts)} rows) copied.")
+            ui.message(_("{label} ({count} rows) copied.").format(label=label, count=len(text_parts)))
 
     # =========================================================================
     # FEATURE: TABLE STATISTICS (WORKS EVERYWHERE)
@@ -737,7 +737,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
         table = self._get_current_table()
         
         if not table:
-            ui.message("Not on a table.")
+            ui.message(_("Not on a table."))
             return
         
         # Special handling for Explorer
@@ -759,7 +759,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
                     count = items.Count
                     
                     if count == 0:
-                        ui.message("Folder is empty.")
+                        ui.message(_("Folder is empty."))
                         return
                     
                     # Count columns
@@ -770,9 +770,9 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
                     
                     winsound.Beep(880, 100)
                     if col_count == 0:
-                        ui.message(f"Folder has {count} items.")
+                        ui.message(_("Folder has {count} items.").format(count=count))
                     else:
-                        ui.message(f"Folder has {count} items and {col_count} columns.")
+                        ui.message(_("Folder has {count} items and {col_count} columns.").format(count=count, col_count=col_count))
                     return
             except:
                 pass
@@ -781,14 +781,14 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
         rows, cols = self.get_table_structure(table)
         
         if rows == 0:
-            ui.message("Table is empty.")
+            ui.message(_("Table is empty."))
             return
         
         winsound.Beep(880, 100)
         if cols == 0:
-            ui.message(f"Table has {rows} rows.")
+            ui.message(_("Table has {rows} rows.").format(rows=rows))
         else:
-            ui.message(f"Table has {rows} rows and {cols} columns.")
+            ui.message(_("Table has {rows} rows and {cols} columns.").format(rows=rows, cols=cols))
 
     # =========================================================================
     # FEATURE: COPY CURRENT CELL (WORKS EVERYWHERE)
@@ -810,19 +810,19 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
             cell = self.find_object_by_role(focus, self.CELL_ROLES)
         
         if not cell:
-            ui.message("Not in a cell.")
+            ui.message(_("Not in a cell."))
             return
         
         winsound.Beep(440, 100)
         
         h, t = self.get_cell_text(cell)
         if not t:
-            ui.message("Cell is empty.")
+            ui.message(_("Cell is empty."))
             return
         
         if self.copy_manual_safe(f"<html><body>{h}</body></html>", t):
             winsound.Beep(880, 100)
-            ui.message("Cell copied.")
+            ui.message(_("Cell copied."))
 
     # =========================================================================
     # FEATURE: COPY MARKED ROWS AS TEXT (WEB ONLY)
@@ -835,7 +835,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
             return
         
         if not self.marked_rows:
-            ui.message("No rows marked.")
+            ui.message(_("No rows marked."))
             return
         
         winsound.Beep(440, 100)
@@ -856,7 +856,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
                 text_lines.append(" ".join(row_texts))
         
         if not text_lines:
-            ui.message("No text found.")
+            ui.message(_("No text found."))
             return
         
         text_out = "\n".join(text_lines)
@@ -870,9 +870,9 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
             self.marked_rows = []
             
             if count == 1:
-                ui.message("Marked row copied as text.")
+                ui.message(_("Marked row copied as text."))
             else:
-                ui.message(f"Marked rows copied as text ({count} rows).")
+                ui.message(_("Marked rows copied as text ({count} rows).").format(count=count))
 
     # =========================================================================
     # MENU & INPUT HANDLERS
