@@ -30,25 +30,30 @@ jobs:
       - name: Install build dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install scons "markdown[extra]" pymdown-extensions
+          pip install scons markdown
 
       - name: Install Gettext tools
         run: choco install gettext -y
 
-      - name: Patch Markdown Library for Tables
-        run: |
-          # Bu komut, Python'ın markdown kütüphanesindeki varsayılan ayarları 
-          # tablo desteği (extra) her zaman açık olacak şekilde yamalar.
-          $markdownPath = python -c "import markdown, os; print(os.path.dirname(markdown.__file__))"
-          $initFile = join-path $markdownPath "__main__.py"
-          # SCons markdown'ı kütüphane olarak çağırdığı için temel init dosyasını da etkileyelim
-          $coreFile = join-path $markdownPath "core.py"
-          (Get-Content $coreFile) -replace "extensions=None", "extensions=['extra', 'tables', 'fenced_code']" | Set-Content $coreFile
-        shell: pwsh
-
-      - name: Build add-on
+      - name: Build and Auto-Fix All Translations
         run: |
           $env:PYTHONPATH = "."
+          
+          # 1. Standard build: SCons prepares all folders and .md files
+          python -m SCons
+          
+          # 2. Dynamic Table Fix: 
+          # Iterates through all language folders (addon/doc/*) and re-converts 
+          # every readme.md file to HTML with table support enabled.
+          $mdFiles = Get-ChildItem -Path "addon/doc/*" -Include "readme.md" -Recurse
+          foreach ($file in $mdFiles) {
+              $htmlTarget = $file.FullName.Replace(".md", ".html")
+              echo "Fixing tables for: $($file.FullName)"
+              # Overwrite with modern markdown module using table extensions
+              python -m markdown -x tables -x fenced_code $file.FullName > $htmlTarget
+          }
+          
+          # 3. Final Packaging: SCons packages the updated HTML files into the addon
           python -m SCons
         shell: pwsh
 
