@@ -220,47 +220,71 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
         return total_rows, max_cols
 
     def process_table_fast(self, rows, selected_indices=None) -> Tuple[str, str]:
-        """
-        FAST table processing - no formatting overhead
-        Returns (html_output, text_output)
-        """
-        html_parts = ["<table border='1' cellpadding='2' cellspacing='0'>"]
-        text_parts = []
-        
-        for row in rows:
-            # Get cells
+        grid = {}
+        max_col = 0
+        total_rows = len(rows)
+
+        for r_idx, row in enumerate(rows):
             cells = [c for c in row.children if c.role in self.CELL_ROLES]
             if not cells:
                 cells = list(row.children)
             
-            # Filter columns if needed
-            if selected_indices:
-                filtered_cells = []
-                for idx in selected_indices:
-                    if 0 <= idx < len(cells):
-                        filtered_cells.append(cells[idx])
-                cells = filtered_cells
-            
-            # Process row
+            c_idx = 0
+            for cell in cells:
+                while (r_idx, c_idx) in grid:
+                    c_idx += 1
+                
+                h, t = self.get_cell_text(cell)
+                if not h: h = "&nbsp;"
+                if not t: t = " "
+
+                # Rowspan ve Colspan değerlerini al (Varsayılan 1)
+                try:
+                    rs = int(getattr(cell, "rowSpan", 1))
+                    cs = int(getattr(cell, "colSpan", 1))
+                except:
+                    rs, cs = 1, 1
+
+                for r_offset in range(rs):
+                    for c_offset in range(cs):
+                        target_r = r_idx + r_offset
+                        target_c = c_idx + c_offset
+                        if r_offset == 0 and c_offset == 0:
+                            grid[(target_r, target_c)] = (h, t, rs, cs)
+                        else:
+                            grid[(target_r, target_c)] = ("OCCUPIED", "OCCUPIED", 1, 1)
+                
+                c_idx += cs
+                if c_idx > max_col: max_col = c_idx
+
+        html_parts = ["<table border='1' cellpadding='2' cellspacing='0'>"]
+        text_parts = []
+        
+        target_cols = selected_indices if selected_indices else range(max_col)
+
+        for r_idx in range(total_rows):
             row_html = "<tr>"
             row_text = []
             
-            for cell in cells:
-                # Get text only - NO FORMATTING
-                h, t = self.get_cell_text(cell)
-                
-                if not h:
-                    h = "&nbsp;"
-                if not t:
-                    t = " "
-                
-                row_html += f"<td>{h}</td>"
-                row_text.append(t)
+            for c_idx in target_cols:
+                if (r_idx, c_idx) in grid:
+                    h, t, rs, cs = grid[(r_idx, c_idx)]
+                    
+                    if h == "OCCUPIED":
+                        continue
+                    
+                    rs_attr = f" rowspan='{rs}'" if rs > 1 else ""
+                    cs_attr = f" colspan='{cs}'" if cs > 1 else ""
+                    row_html += f"<td{rs_attr}{cs_attr}>{h}</td>"
+                    row_text.append(t)
+                else:
+                    row_html += "<td>&nbsp;</td>"
+                    row_text.append(" ")
             
             row_html += "</tr>"
             html_parts.append(row_html)
             text_parts.append("\t".join(row_text))
-        
+
         html_parts.append("</table>")
         return "".join(html_parts), "\n".join(text_parts)
 
