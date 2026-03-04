@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# EasyTableCopy v2026.5.2
+# EasyTableCopy v2026.5.3
 # Author: Çağrı Doğan
 
 import globalPluginHandler
@@ -546,6 +546,109 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
         except: 
             return False
 
+
+# =========================================================================
+    # FEATURE: HIERARCHICAL TREE COPY (FULL STRUCTURE)
+    # =========================================================================
+    def get_tree_hierarchy(self, item, level=0, visited=None) -> List[str]:
+        """Recursively scans tree items using a hybrid approach to find all nodes."""
+        if visited is None:
+            visited = set()
+        
+        try:
+            # Use window handle and hash to ensure we don't loop or double-copy
+            item_id = (item.windowHandle, hash(item))
+            if item_id in visited:
+                return []
+            visited.add(item_id)
+        except:
+            pass
+
+        lines = []
+        indent = "    " * level
+        name = (item.name or "").strip()
+        
+        # Determine expansion status for the visual report
+        states = item.states
+        status = ""
+        if controlTypes.State.COLLAPSED in states:
+            status = " [+]"
+        elif controlTypes.State.EXPANDED in states:
+            status = " [-]"
+
+        if name:
+            lines.append(f"{indent}{name}{status}")
+
+        # Try to gather children using multiple NVDA methods
+        children_to_process = []
+        try:
+            # Method 1: Standard children collection
+            if item.childCount > 0:
+                children_to_process.extend([c for c in item.children if c.role in [controlTypes.Role.TREEVIEWITEM, controlTypes.Role.GROUPING]])
+            
+            # Method 2: firstChild/next navigation (often catches what .children misses)
+            child = item.firstChild
+            while child:
+                if child.role in [controlTypes.Role.TREEVIEWITEM, controlTypes.Role.GROUPING]:
+                    c_id = (child.windowHandle, hash(child))
+                    if c_id not in [ (x.windowHandle, hash(x)) for x in children_to_process ]:
+                        children_to_process.append(child)
+                child = child.next
+        except:
+            pass
+
+        for child in children_to_process:
+            lines.extend(self.get_tree_hierarchy(child, level + 1, visited))
+        
+        return lines
+
+    def perform_tree_copy(self, focus_obj):
+        """Climbs to the absolute top of the tree and copies everything visible to NVDA."""
+        winsound.Beep(440, 100)
+        
+        # Step 1: Climb to the absolute root TreeView object
+        root_container = focus_obj
+        curr = focus_obj
+        while curr:
+            if curr.role == controlTypes.Role.TREEVIEW:
+                root_container = curr
+            parent = curr.parent
+            if not parent or parent == curr or parent.role == controlTypes.Role.WINDOW:
+                break
+            curr = parent
+        
+        # Step 2: Begin scanning from the root container's children
+        all_lines = []
+        global_visited = set()
+        
+        # Get the very first item in the tree to start the sequence
+        start_node = None
+        try:
+            # Most SysTreeView32 objects have their first item as their firstChild
+            start_node = root_container.firstChild
+        except:
+            pass
+
+        if start_node:
+            # Follow the sibling chain from the very top
+            curr_item = start_node
+            while curr_item:
+                if curr_item.role in [controlTypes.Role.TREEVIEWITEM, controlTypes.Role.GROUPING]:
+                    all_lines.extend(self.get_tree_hierarchy(curr_item, 0, global_visited))
+                curr_item = curr_item.next
+        else:
+            # Fallback: if root navigation fails, scan from focus_obj's highest visible parent
+            all_lines = self.get_tree_hierarchy(root_container, 0, global_visited)
+
+        if not all_lines:
+            ui.message(_("No tree items found. Try expanding the branches you wish to copy."))
+            return
+
+        text_out = "\n".join(all_lines)
+        if self.copy_manual_safe(f"<html><body><pre>{text_out}</pre></body></html>", text_out):
+            winsound.Beep(880, 100)
+            ui.message(_("Full tree structure copied ({count} items).").format(count=len(all_lines)))
+
     def perform_list_view_copy_fallback(self, list_obj):
         """Fast list copying"""
         try:
@@ -1037,6 +1140,10 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
                 ui.message(_("Not on a table."))
         else:
             if self.copy_explorer_content(focus.windowHandle): 
+                return
+            tree_obj = self.find_object_by_role(focus, [controlTypes.Role.TREEVIEW, controlTypes.Role.TREEVIEWITEM])
+            if tree_obj:
+                self.perform_tree_copy(tree_obj)
                 return
             target_list = None
             if focus.role in self.TABLE_ROLES: 

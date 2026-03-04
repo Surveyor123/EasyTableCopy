@@ -9,6 +9,7 @@
 * **Çift Kopyalama Motoru:** Görsel kalite için "Standart" mod, yapısal garanti için "Yeniden Oluşturma" modu.
 * **Akıllı Seçim:** Bitişik olmayan satırları veya sadece belirli sütunları kolayca seçip kopyalayın.
 * **Masaüstü ve Gezgin Desteği:** Dosya Gezgini veya uygulama listelerini anında düzenli bir tabloya dönüştürerek kopyalayın. Belirli sütunları veya sütun kombinasyonlarını seçip kopyalayın.
+* **Ağaç Görünümü (TreeView) Desteği:** Klasör ağaçları veya ayarlar (Girdi Hareketleri gibi) hiyerarşik yapılarını seviyeleri korunmuş olarak kopyalayın.
 * **Hücre Düzeyinde Kopyalama:** Tek bir hücrenin içeriğini tablo yapısı olmadan hızlıca kopyalayın.
 * **Tablo İstatistikleri:** Herhangi bir tablo veya listenin satır ve sütun sayısını anında öğrenin.
 * **Sesli Geri Bildirim:** İşlem başladığında ve bittiğinde farklı seslerle sizi bilgilendirir.
@@ -23,16 +24,14 @@ Bu özellikler Chrome, Edge, Firefox gibi tarayıcılarda "Tarama Kipi" (Browse 
 
 Herhangi bir tablonun içindeyken `NVDA + Alt + T` tuşlarına basarak menüyü açabilirsiniz.
 
-* **Tabloyu Kopyala (Standart):** Tarayıcının kendi kopyalama yöntemini kullanır.
-* *Avantajı:* Yazı tiplerini, renkleri ve linkleri orijinal haliyle korur.
-* *Dezavantajı:* Tarayıcıya bağımlı olduğu için bazı boş hücreler Word'de kaybolabilir.
-
-
-* **Tabloyu Kopyala (Yeniden Oluşturulan):** "Güvenli Mod"dur. Eklenti tabloyu hücre hücre okur ve sıfırdan inşa eder.
-* *Avantajı:* **Boş hücrelerin korunmasını** ve kenarlıkların (border) Word'de kesinlikle görünmesini garanti eder.
-* *Dezavantajı:* Çok karmaşık görsel stilleri (yuvarlak köşeler vb.) aktarmayabilir.
-
-
+* **Tabloyu Kopyala (Standart):**
+Tarayıcının kendi kopyalama yöntemini kullanır.
+*Avantajı:* Yazı tiplerini, renkleri ve linkleri orijinal haliyle korur.
+*Dezavantajı:* Tarayıcıya bağımlı olduğu için bazı boş hücreler Word'de kaybolabilir.
+* **Tabloyu Kopyala (Yeniden Oluşturulan):**
+"Güvenli Mod"dur. Eklenti tabloyu hücre hücre okur ve sıfırdan inşa eder.
+*Avantajı:* **Boş hücrelerin korunmasını** ve kenarlıkların (border) Word'de kesinlikle görünmesini garanti eder.
+*Dezavantajı:* Çok karmaşık görsel stilleri (yuvarlak köşeler vb.) aktarmayabilir.
 * **Geçerli Satırı Kopyala:** İmlecin bulunduğu satırı kopyalar.
 * **Geçerli Sütunu Kopyala:** İmlecin bulunduğu dikey sütunu manuel olarak ayıklar ve kopyalar.
 
@@ -63,15 +62,19 @@ Tablonun tamamını değil, sadece istediğiniz kısımları alabilirsiniz. **No
 
 ---
 
-## 3. Masaüstü ve Gezgin Modu (Windows)
+## 3. Masaüstü, Gezgin ve Ağaç Görünümü Modu (Windows)
 
-EasyTableCopy, Dosya Gezgini ve standart liste görünümlerinde de çalışır.
+EasyTableCopy; Dosya Gezgini, standart liste görünümleri ve hiyerarşik ağaç yapılarında da çalışır.
 
-### A. Hızlı Liste Kopyalama
+### A. Hızlı Liste ve Ağaç Kopyalama
 
-1. Bir listeye odaklanın (Örneğin bir klasörün içine girin).
+1. Bir listeye (klasör içi) veya ağaç öğesine (Girdi Hareketleri dalı gibi) odaklanın.
 2. `NVDA + Alt + T` tuşuna basın.
-3. **Sonuç:** Listenin tamamı; "Ad", "Tarih", "Tür" gibi başlıkları olan düzenli bir tabloya dönüştürülür ve panoya kopyalanır.
+3. **Listeler İçin Sonuç:** Listenin tamamı; "Ad", "Tarih", "Tür" gibi başlıkları olan düzenli bir tabloya dönüştürülür ve panoya kopyalanır.
+4. **Ağaçlar İçin Sonuç:** Tüm ağaç yapısı en üst kökten başlayarak taranır ve girintili bir liste olarak kopyalanır.
+* `[+]` işareti kapalı dalları, `[-]` işareti açık dalları temsil eder.
+
+
 
 ### B. Sütun Bazlı Kopyalama (Sadece Masaüstü ve Gezgin)
 
@@ -126,7 +129,7 @@ Eklenti, büyük tablolarda performans sorunu yaşamamak için akıllı örnekle
 
 | Kısayol | İşlev | Bağlam |
 | --- | --- | --- |
-| `NVDA + Alt + T` | Menüyü Aç (Web) / Listeyi Kopyala (Masaüstü) | Her Yerde |
+| `NVDA + Alt + T` | Menüyü Aç (Web) / Liste veya Ağacı Kopyala (Masaüstü) | Her Yerde |
 | `Ctrl + Alt + Boşluk` | Satırı İşaretle/Kaldır | Sadece Web |
 | `Ctrl + Alt + Shift + Boşluk` | Sütunu İşaretle/Kaldır | Sadece Web |
 | `Ctrl + Alt + Win + Boşluk` | Seçimleri Temizle | Sadece Web |
@@ -153,6 +156,7 @@ Eklenti, büyük tablolarda performans sorunu yaşamamak için akıllı örnekle
 * **Seçim Sınırlamaları:** Satır ve sütun seçimlerini karıştıramazsınız.
 * **Büyük Tablolar:** Çok büyük web tablolarında istatistikler, performans için örnekleme yöntemiyle hesaplanır.
 * **Web vs Masaüstü:** Bazı komutlar bağlama özgüdür. Geçerli olmayan bağlamdaki komutlar yok sayılır.
+* **Ağaç Yükleme:** Bazı Windows ağaç görünümlerinde, daha önce hiç açılmamış dallar NVDA tarafından görülmeyebilir.
 
 ---
 

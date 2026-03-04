@@ -18,12 +18,12 @@ addon_info = AddonInfo(
 	addon_description=_("""EasyTableCopy is an NVDA add-on designed to solve a common frustration: copying tables from the Web or lists from Windows into documents (like Word, Excel, or Outlook) without losing formatting or layout."""),
 	
 	# version
-	addon_version="2026.5.2",
+	addon_version="2026.5.3",
 	
 	# Brief changelog for this version
 	# Translators: what's new content for the add-on version
 	addon_changelog=_("""
-* Fixed column merging in Excel by implementing a structured HTML table engine for custom column selections.
+* Added hierarchical TreeView copy support (e.g., Input Gestures) with root-to-bottom scanning and indentation.
 """),
 	
 	# Author(s)

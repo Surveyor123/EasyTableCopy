@@ -7,6 +7,7 @@
 * **Dual Copy Engine:** Choose between "Standard" mode for best visual fidelity or "Reconstructed" mode for guaranteed structure integrity.
 * **Smart Selection:** Easily select non-adjacent rows or specific columns to copy.
 * **Desktop & Explorer Support:** Instantly convert File Explorer lists or application views into copyable tables. Copy specific columns or combinations of columns.
+* **TreeView Hierarchical Copy:** Copy nested tree structures (like the Input Gestures dialog) with proper indentation and expansion states.
 * **Cell-Level Copying:** Quickly copy individual cell content without the surrounding table structure.
 * **Table Statistics:** Get instant information about table dimensions (row and column count) anywhere.
 * **Audio Feedback:** Distinct sounds and speech messages keep you informed about the copying process.
@@ -23,12 +24,10 @@ Navigate inside any table on a website and press `NVDA + Alt + T` to open the ac
 Uses the browser's native copy function.
 *Pros:* Preserves exact fonts, background colors, and links.
 *Cons:* Relies on the browser; empty cells might collapse in some target applications.
-
 * **Copy Table (Reconstructed):**
 The "Safe Mode." The add-on ignores the browser and manually rebuilds the table from scratch.
 *Pros:* **Guarantees** that empty cells are filled (preserving borders) and enforces grid lines.
 *Cons:* May lose complex CSS styling (like rounded corners).
-
 * **Copy Current Row:** Copies only the row where your cursor is located (Standard mode).
 * **Copy Current Column:** Manually extracts and copies the vertical column where your cursor is located.
 
@@ -57,15 +56,20 @@ You can select specific items to copy in a batch. **Note:** You can mark Rows OR
 * **Copy Marked Rows as Text:** After marking rows, you can copy them as plain text without table structure using the `Copy Marked as Text` command (no default key, assign in Input Gestures).
 * **Copy Current Cell:** Quickly copy the content of the current cell using the `Copy Current Cell` command.
 
-## 3. Desktop & Explorer Mode (Windows)
+## 3. Desktop, Explorer & TreeView Mode (Windows)
 
-EasyTableCopy also works in File Explorer and standard list views in various applications.
+EasyTableCopy also works in File Explorer, standard list views, and hierarchical trees.
 
-### A. Quick List Copy
+### A. Quick List & Tree Copy
 
-1. Focus on a list (e.g., a folder with files).
+1. Focus on a list (e.g., a folder) or a tree item (e.g., Input Gestures).
 2. Press `NVDA + Alt + T`.
-3. **Result:** The entire list is converted into a structured table (with headers like Name, Date, Type) and copied to your clipboard.
+3. **Result for Lists:** The entire list is converted into a structured table (with headers like Name, Date, Type) and copied to your clipboard.
+4. **Result for Trees:** The entire tree is scanned from the root and copied as a hierarchical list with indentation.
+* `[+]` indicates a collapsed branch.
+* `[-]` indicates an expanded branch.
+
+
 
 ### B. Column-Specific Copying (Desktop & Explorer Only)
 
@@ -81,6 +85,7 @@ You can copy individual columns or combinations of columns from any desktop list
 | Copy Columns 1 and 3 | Copies the first and third columns (skipping the second) |
 
 **How to use:**
+
 1. Focus on any list or Explorer window.
 2. Press the key you've assigned to the desired column command (no default keys - assign in Input Gestures).
 3. The selected columns will be copied as a table with headers.
@@ -88,25 +93,28 @@ You can copy individual columns or combinations of columns from any desktop list
 ### C. Table Statistics in Desktop Mode
 
 Press the `Table Statistics` command (no default key) to hear:
-- Number of items in the folder/list
-- Number of columns displayed
+
+* Number of items in the folder/list
+* Number of columns displayed
 
 ## 4. Universal Features (Work Everywhere)
 
 ### A. Table Statistics
 
 Use the `Table Statistics` command anywhere (web, desktop, Explorer) to get instant information about the current table or list:
-- Number of rows/items
-- Number of columns
+
+* Number of rows/items
+* Number of columns
 
 The add-on intelligently samples large tables to provide quick and accurate information without performance lag.
 
 ### B. Copy Current Cell
 
 Use the `Copy Current Cell` command anywhere to quickly copy just the content of the current cell without the surrounding table structure. Perfect for:
-- Copying specific values from web tables
-- Extracting single items from lists
-- Quick data entry tasks
+
+* Copying specific values from web tables
+* Extracting single items from lists
+* Quick data entry tasks
 
 ## 5. Shortcuts Cheat Sheet
 
@@ -116,7 +124,7 @@ Use the `Copy Current Cell` command anywhere to quickly copy just the content of
 
 | Shortcut | Function | Context |
 | --- | --- | --- |
-| `NVDA + Alt + T` | Open Menu (Web) / Copy List (Desktop) | Everywhere |
+| `NVDA + Alt + T` | Open Menu (Web) / Copy List or Tree (Desktop) | Everywhere |
 | `Ctrl + Alt + Space` | Mark/Unmark Row | Web Only |
 | `Ctrl + Alt + Shift + Space` | Mark/Unmark Column | Web Only |
 | `Ctrl + Alt + Win + Space` | Clear All Selections | Web Only |
@@ -143,6 +151,7 @@ These commands have no default key assignments. To use them, assign your own sho
 * **Selection Limitations:** You cannot mix row and column selections. Choose either rows OR columns, but not both.
 * **Large Tables:** The add-on handles large tables efficiently. For very large web tables, statistics are calculated using sampling for optimal performance.
 * **Web vs Desktop:** Some commands are context-specific (web-only or desktop-only) to ensure reliable operation. Commands that don't apply in the current context are simply ignored.
+* **Tree Loading:** In some TreeViews, items that have never been expanded might not be available to NVDA until they are accessed.
 
 ## 7. Feedback and Contributions
 
