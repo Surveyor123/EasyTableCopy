@@ -18,11 +18,15 @@ addon_info = AddonInfo(
 	addon_description=_("""EasyTableCopy is an NVDA add-on designed to solve a common frustration: copying tables from the Web or lists from Windows into documents (like Word, Excel, or Outlook) without losing formatting or layout."""),
 	
 	# version
-	addon_version="2026.5.3",
+	addon_version="2026.5.4",
 	
 	# Brief changelog for this version
 	# Translators: what's new content for the add-on version
 	addon_changelog=_("""
+* Fix COM object leak: `shell.application` COM objects in `copy_explorer_content`, `_copy_columns_direct`, and `script_tableStats` are now explicitly released via `del shell` in `finally` blocks.
+* Fix duplicate node detection in tree traversal: `get_tree_hierarchy` was using `hash(item)` for visited-set deduplication, which is prone to collisions. Replaced with `id(item)` (memory address) for reliable identity checks within a session.
+* Refactor magic numbers into named constants: Hardcoded values like `300`, `200`, and `15` extracted into `CLIPBOARD_INITIAL_WAIT_MS`, `CLIPBOARD_RETRY_WAIT_MS`, and `CLIPBOARD_MAX_RETRIES`.
+* Fix `terminate` cleanup: Removed unnecessary `gc.collect()` call; now properly clears instance state on addon unload.
 * Added hierarchical TreeView copy support (e.g., Input Gestures) with root-to-bottom scanning and indentation.
 """),
 	

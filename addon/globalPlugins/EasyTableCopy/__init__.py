@@ -18,12 +18,18 @@ import time
 import winsound
 from typing import List, Tuple, Optional, Set
 import gc
+from logHandler import log
 
 # Start translation system
 addonHandler.initTranslation()
 user32 = ctypes.windll.user32
 
 BLOCKED_APPS = ["excel", "calc", "soffice"]
+
+CLIPBOARD_INITIAL_WAIT_MS = 300
+CLIPBOARD_RETRY_WAIT_MS = 200
+CLIPBOARD_MAX_RETRIES = 15
+MAX_PARENT_SEARCH_DEPTH = 10
 
 def script_description(desc):
     def wrapper(func):
@@ -56,8 +62,11 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
         for name in names:
             if hasattr(r, name): s.add(getattr(r, name))
 
-    marked_rows = [] 
-    marked_col_indices = set()
+
+    def __init__(self):
+        super().__init__()
+        self.marked_rows = []
+        self.marked_col_indices = set()
 
     def get_context_tree_interceptor(self):
         obj = api.getFocusObject()
@@ -83,7 +92,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
     def find_object_by_role(self, start_obj, target_roles):
         obj = start_obj
-        for _loop in range(50): 
+        for _loop in range(MAX_PARENT_SEARCH_DEPTH):
             if not obj: break
             if obj.role in target_roles: return obj
             obj = obj.parent
@@ -95,12 +104,14 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
             try:
                 siblings = [c for c in parent.children if c.role in self.CELL_ROLES]
                 if cell_obj in siblings: return siblings.index(cell_obj)
-            except: pass
+            except Exception as e:
+                log.debugWarning(f"EasyTableCopy.get_column_index (siblings): {e}")
         try:
             if hasattr(cell_obj, "columnNumber"):
                 val = cell_obj.columnNumber
                 if val > 0: return val - 1
-        except: pass
+        except Exception as e:
+            log.debugWarning(f"EasyTableCopy.get_column_index (columnNumber): {e}")
         return -1
 
     def _restore_focus(self, hwnd):
@@ -110,7 +121,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
                     winUser.setForegroundWindow(hwnd)
                 winUser.setFocus(hwnd)
                 time.sleep(0.05) 
-        except: pass
+        except Exception as e:
+            log.debugWarning(f"EasyTableCopy._restore_focus: {e}")
 
     # =========================================================================
     # SIMPLE TEXT EXTRACTION - NO FORMATTING ATTEMPTS
@@ -120,17 +132,13 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
         EXTREMELY FAST - Only extracts text, no formatting
         Returns (html_text, plain_text)
         """
-        # Prevent deep recursion
         if depth > 10:
             return "", ""
         
-        # Fast path for empty objects
         if obj is None:
             return "", ""
         
-        # Handle objects with children
         if obj.childCount > 0:
-            # Process children in batch
             text_parts = []
             for child in obj.children:
                 if child.role in self.CONTENT_ROLES or child.childCount > 0:
@@ -140,28 +148,25 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
             
             if text_parts:
                 plain_text = " ".join(text_parts)
-                # Simple HTML - just the text, no formatting
                 html_text = plain_text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
                 return html_text, plain_text
             return "", ""
         else:
-            # Leaf node
             raw = (obj.name or obj.value or "").strip()
             if raw:
-                # Simple escape for HTML
                 html = raw.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
                 return html, raw
             return "", ""
 
     def copy_manual_safe(self, html, text):
         """Fast clipboard handling"""
-        if not wx.TheClipboard.Open(): 
+        if not wx.TheClipboard.Open():
+            log.debugWarning("EasyTableCopy.copy_manual_safe: Clipboard could not be opened.")
             return False
         try:
             d = wx.DataObjectComposite()
             h = wx.HTMLDataObject()
             
-            # Minimal HTML structure
             full = f"<html><body>{html}</body></html>"
             h.SetHTML(full)
             d.Add(h, True)
@@ -173,7 +178,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
             result = wx.TheClipboard.SetData(d)
             wx.TheClipboard.Close()
             return result
-        except: 
+        except Exception as e:
+            log.debugWarning(f"EasyTableCopy.copy_manual_safe: {e}")
             wx.TheClipboard.Close()
             return False
 
@@ -197,18 +203,16 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
     def get_table_structure(self, table_obj, sample_size=50) -> Tuple[int, int]:
         """
-        Get accurate row and column counts from any table
-        Uses sampling for large tables to avoid performance issues
+        Get accurate row and column counts from any table.
+        Uses sampling for large tables to avoid performance issues.
         Returns (row_count, column_count)
         """
-        # First get total rows (fast)
         all_rows = self.collect_rows_fast(table_obj)
         total_rows = len(all_rows)
         
         if total_rows == 0:
             return 0, 0
         
-        # For column count, sample first few rows
         sample_rows = all_rows[:min(sample_size, total_rows)]
         max_cols = 0
         
@@ -238,11 +242,11 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
                 if not h: h = "&nbsp;"
                 if not t: t = " "
 
-                # Rowspan ve Colspan değerlerini al (Varsayılan 1)
                 try:
                     rs = int(getattr(cell, "rowSpan", 1))
                     cs = int(getattr(cell, "colSpan", 1))
-                except:
+                except Exception as e:
+                    log.debugWarning(f"EasyTableCopy.process_table_fast (span): {e}")
                     rs, cs = 1, 1
 
                 for r_offset in range(rs):
@@ -313,9 +317,9 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
                         first_cell = first_row_cells[0]
                         try:
                             cell_text = first_cell.getText() or ""
-                        except:
+                        except Exception as e:
+                            log.debugWarning(f"EasyTableCopy.perform_native_copy (getText): {e}")
                             cell_text = ""
-                        # Detect empty first cell for background fix logic
                         if not first_cell.name and not cell_text.strip():
                             first_cell_empty = True
 
@@ -333,17 +337,19 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
             winsound.Beep(440, 100) 
             keyboardHandler.KeyboardInputGesture.fromName("control+c").send()
             
-            wx.CallLater(300, self._retry_clipboard_repair, label, count_info, 1, first_cell_empty)
-        except Exception:
+            wx.CallLater(CLIPBOARD_INITIAL_WAIT_MS, self._retry_clipboard_repair, label, count_info, 1, first_cell_empty)
+        except Exception as e:
+            log.debugWarning(f"EasyTableCopy.perform_native_copy: {e}")
             ui.message(_("Selection failed."))
 
 
     def _retry_clipboard_repair(self, label, count_info, attempt, first_cell_empty=False):
         if not wx.TheClipboard.Open():
-            if attempt < 15:
-                wx.CallLater(200, self._retry_clipboard_repair, label, count_info, attempt + 1, first_cell_empty)
+            if attempt < CLIPBOARD_MAX_RETRIES:
+                wx.CallLater(CLIPBOARD_RETRY_WAIT_MS, self._retry_clipboard_repair, label, count_info, attempt + 1, first_cell_empty)
                 return
             else:
+                log.debugWarning(f"EasyTableCopy._retry_clipboard_repair: Clipboard could not be opened after {CLIPBOARD_MAX_RETRIES} attempts.")
                 ui.message(_("{label} copied{count}.").format(label=label, count=count_info))
                 return
 
@@ -355,22 +361,16 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
                     modified = False
                     
                     if first_cell_empty:
-                        # Find the first row
                         row_pattern = re.compile(r'(<tr[^>]*>)(.*?)(</tr>)', re.IGNORECASE | re.DOTALL)
                         row_match = row_pattern.search(raw_html)
                         
                         if row_match:
                             tr_start, row_content, tr_end = row_match.groups()
-                            
-                            # REVISED INJECTION: Removed <p></p> to prevent row doubling in Excel
-                            # Only &nbsp; is used to maintain column structure safely
                             insertion = "<td>&nbsp;</td>"
-                            
                             repaired_row = f"{tr_start}{insertion}{row_content}{tr_end}"
                             raw_html = raw_html.replace(row_match.group(0), repaired_row, 1)
                             modified = True
 
-                    # Ensure standard table borders
                     if "border=" not in raw_html.lower() and "border:" not in raw_html.lower():
                         if "<table" in raw_html.lower():
                             raw_html = re.sub(r'(<table\b[^>]*)(>)', r'\1 border="1" cellspacing="0" cellpadding="5"\2', raw_html, count=1, flags=re.IGNORECASE)
@@ -390,7 +390,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
                     
                     winsound.Beep(880, 100)
                     ui.message(_("{label} copied{count}.").format(label=label, count=count_info))
-        except:
+        except Exception as e:
+            log.debugWarning(f"EasyTableCopy._retry_clipboard_repair: {e}")
             ui.message(_("Error."))
         finally:
             wx.TheClipboard.Close()
@@ -407,14 +408,12 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
         winsound.Beep(440, 100)
         
-        # Collect rows - super fast
         rows = self.collect_rows_fast(table)
         
         if not rows:
             ui.message(_("Table is empty."))
             return
 
-        # Process table - no formatting overhead
         html_out, text_out = self.process_table_fast(rows)
         
         if self.copy_manual_safe(html_out, text_out):
@@ -448,7 +447,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
                         target_rows = [r for r in all_rows if r in self.marked_rows]
                     else: 
                         target_rows = self.marked_rows
-                except: 
+                except Exception as e:
+                    log.debugWarning(f"EasyTableCopy.perform_marked_copy_manual (rows): {e}")
                     target_rows = self.marked_rows
         
         elif self.marked_col_indices:
@@ -458,7 +458,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
                 table = self.find_object_by_role(obj, self.TABLE_ROLES)
                 target_rows = self.collect_rows_fast(table)
                 target_col_indices = sorted(list(self.marked_col_indices))
-            except: 
+            except Exception as e:
+                log.debugWarning(f"EasyTableCopy.perform_marked_copy_manual (cols): {e}")
                 return
 
         if not target_rows:
@@ -468,7 +469,6 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
         winsound.Beep(440, 100)
         
-        # Process with column filtering
         html_out, text_out = self.process_table_fast(target_rows, target_col_indices)
         
         if self.copy_manual_safe(html_out, text_out):
@@ -507,10 +507,11 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
                     if window.hwnd == hwnd or user32.IsChild(window.hwnd, hwnd):
                         folder_view = window.Document
                         break
-                except: 
+                except Exception as e:
+                    log.debugWarning(f"EasyTableCopy.copy_explorer_content (window iter): {e}")
                     continue
             
-            if not folder_view: 
+            if not folder_view:
                 return False
             
             items = folder_view.Folder.Items()
@@ -543,11 +544,16 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
             else: 
                 ui.message(_("Folder copied ({count} items).").format(count=count))
             return True
-        except: 
+        except Exception as e:
+            log.debugWarning(f"EasyTableCopy.copy_explorer_content: {e}")
             return False
+        finally:
+            try:
+                del shell
+            except Exception:
+                pass
 
-
-# =========================================================================
+    # =========================================================================
     # FEATURE: HIERARCHICAL TREE COPY (FULL STRUCTURE)
     # =========================================================================
     def get_tree_hierarchy(self, item, level=0, visited=None) -> List[str]:
@@ -556,19 +562,17 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
             visited = set()
         
         try:
-            # Use window handle and hash to ensure we don't loop or double-copy
-            item_id = (item.windowHandle, hash(item))
+            item_id = id(item)
             if item_id in visited:
                 return []
             visited.add(item_id)
-        except:
-            pass
+        except Exception as e:
+            log.debugWarning(f"EasyTableCopy.get_tree_hierarchy (visited): {e}")
 
         lines = []
         indent = "    " * level
         name = (item.name or "").strip()
         
-        # Determine expansion status for the visual report
         states = item.states
         status = ""
         if controlTypes.State.COLLAPSED in states:
@@ -579,23 +583,21 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
         if name:
             lines.append(f"{indent}{name}{status}")
 
-        # Try to gather children using multiple NVDA methods
         children_to_process = []
         try:
-            # Method 1: Standard children collection
             if item.childCount > 0:
                 children_to_process.extend([c for c in item.children if c.role in [controlTypes.Role.TREEVIEWITEM, controlTypes.Role.GROUPING]])
             
-            # Method 2: firstChild/next navigation (often catches what .children misses)
+            existing_ids = {id(x) for x in children_to_process}
             child = item.firstChild
             while child:
                 if child.role in [controlTypes.Role.TREEVIEWITEM, controlTypes.Role.GROUPING]:
-                    c_id = (child.windowHandle, hash(child))
-                    if c_id not in [ (x.windowHandle, hash(x)) for x in children_to_process ]:
+                    if id(child) not in existing_ids:
                         children_to_process.append(child)
+                        existing_ids.add(id(child))
                 child = child.next
-        except:
-            pass
+        except Exception as e:
+            log.debugWarning(f"EasyTableCopy.get_tree_hierarchy (children): {e}")
 
         for child in children_to_process:
             lines.extend(self.get_tree_hierarchy(child, level + 1, visited))
@@ -606,7 +608,6 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
         """Climbs to the absolute top of the tree and copies everything visible to NVDA."""
         winsound.Beep(440, 100)
         
-        # Step 1: Climb to the absolute root TreeView object
         root_container = focus_obj
         curr = focus_obj
         while curr:
@@ -617,27 +618,22 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
                 break
             curr = parent
         
-        # Step 2: Begin scanning from the root container's children
         all_lines = []
         global_visited = set()
         
-        # Get the very first item in the tree to start the sequence
         start_node = None
         try:
-            # Most SysTreeView32 objects have their first item as their firstChild
             start_node = root_container.firstChild
-        except:
-            pass
+        except Exception as e:
+            log.debugWarning(f"EasyTableCopy.perform_tree_copy (firstChild): {e}")
 
         if start_node:
-            # Follow the sibling chain from the very top
             curr_item = start_node
             while curr_item:
                 if curr_item.role in [controlTypes.Role.TREEVIEWITEM, controlTypes.Role.GROUPING]:
                     all_lines.extend(self.get_tree_hierarchy(curr_item, 0, global_visited))
                 curr_item = curr_item.next
         else:
-            # Fallback: if root navigation fails, scan from focus_obj's highest visible parent
             all_lines = self.get_tree_hierarchy(root_container, 0, global_visited)
 
         if not all_lines:
@@ -698,7 +694,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
                     ui.message(_("List copied ({count} items).").format(count=count))
             else:
                 ui.message(_("Clipboard error. Try again."))
-        except Exception:
+        except Exception as e:
+            log.debugWarning(f"EasyTableCopy.perform_list_view_copy_fallback: {e}")
             ui.message(_("Error processing list."))
 
     # =========================================================================
@@ -711,15 +708,13 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
         
         table = None
         if ti:
-            # Web context
             try:
                 obj = ti.makeTextInfo(textInfos.POSITION_CARET).NVDAObjectAtStart
                 table = self.find_object_by_role(obj, self.TABLE_ROLES)
-            except:
-                pass
+            except Exception as e:
+                log.debugWarning(f"EasyTableCopy._get_current_table (web): {e}")
         
         if not table:
-            # Desktop context
             if focus.role in self.TABLE_ROLES:
                 table = focus
             else:
@@ -738,43 +733,36 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
     # =========================================================================
     @script_description(_("Copies first column from current table (desktop only)."))
     def script_copyColumn1(self, gesture):
-        """Copy first column - desktop only"""
         if self.is_web_context():
-            # Don't process the hotkey on the web
             return
         self._copy_columns_direct([0], _("Column 1"))
 
     @script_description(_("Copies second column from current table (desktop only)."))
     def script_copyColumn2(self, gesture):
-        """Copy second column - desktop only"""
         if self.is_web_context():
             return
         self._copy_columns_direct([1], _("Column 2"))
 
     @script_description(_("Copies third column from current table (desktop only)."))
     def script_copyColumn3(self, gesture):
-        """Copy third column - desktop only"""
         if self.is_web_context():
             return
         self._copy_columns_direct([2], _("Column 3"))
 
     @script_description(_("Copies first and second columns from current table (desktop only)."))
     def script_copyColumns1and2(self, gesture):
-        """Copy columns 1 and 2 - desktop only"""
         if self.is_web_context():
             return
         self._copy_columns_direct([0, 1], _("Columns 1-2"))
 
     @script_description(_("Copies first and third columns from current table (desktop only)."))
     def script_copyColumns1and3(self, gesture):
-        """Copy columns 1 and 3 - desktop only"""
         if self.is_web_context():
             return
         self._copy_columns_direct([0, 2], _("Columns 1-3"))
 
     @script_description(_("Copies first three columns from current table (desktop only)."))
     def script_copyColumns1to3(self, gesture):
-        """Copy columns 1, 2, and 3 - desktop only"""
         if self.is_web_context():
             return
         self._copy_columns_direct([0, 1, 2], _("Columns 1-3"))
@@ -789,6 +777,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
         # --- PART 1: Windows Explorer Handling ---
         if self.is_explorer_context():
             focus = api.getFocusObject()
+            shell = None
             try:
                 shell = CreateObject("shell.application")
                 folder_view = None
@@ -797,7 +786,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
                         if window.hwnd == focus.windowHandle or user32.IsChild(window.hwnd, focus.windowHandle):
                             folder_view = window.Document
                             break
-                    except: 
+                    except Exception as e:
+                        log.debugWarning(f"EasyTableCopy._copy_columns_direct (window iter): {e}")
                         continue
                 
                 if folder_view:
@@ -809,7 +799,6 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
                     
                     winsound.Beep(440, 100)
                     
-                    # Construct Table Headers
                     headers = []
                     html_header_parts = []
                     for i in column_indices:
@@ -823,7 +812,6 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
                     if html_header_parts:
                         html_rows.append("<tr>" + "".join(html_header_parts) + "</tr>")
                     
-                    # Construct Data Rows
                     for i in range(count):
                         item = items.Item(i)
                         row_vals = []
@@ -844,8 +832,14 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
                         winsound.Beep(880, 100)
                         ui.message(_("{label} ({count} items) copied.").format(label=label, count=count))
                     return
-            except:
-                pass
+            except Exception as e:
+                log.debugWarning(f"EasyTableCopy._copy_columns_direct (explorer): {e}")
+            finally:
+                if shell is not None:
+                    try:
+                        del shell
+                    except Exception:
+                        pass
         
         # --- PART 2: Generic Desktop List Handling ---
         rows = self.collect_rows_fast(table)
@@ -906,9 +900,9 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
             ui.message(_("Not on a table."))
             return
         
-        # Special handling for Explorer
         if self.is_explorer_context():
             focus = api.getFocusObject()
+            shell = None
             try:
                 shell = CreateObject("shell.application")
                 folder_view = None
@@ -917,7 +911,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
                         if window.hwnd == focus.windowHandle or user32.IsChild(window.hwnd, focus.windowHandle):
                             folder_view = window.Document
                             break
-                    except: 
+                    except Exception as e:
+                        log.debugWarning(f"EasyTableCopy.script_tableStats (window iter): {e}")
                         continue
                 
                 if folder_view:
@@ -928,9 +923,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
                         ui.message(_("Folder is empty."))
                         return
                     
-                    # Count columns
                     col_count = 0
-                    for i in range(20):  # Check up to 20 columns
+                    for i in range(20):
                         if folder_view.Folder.GetDetailsOf(None, i):
                             col_count += 1
                     
@@ -940,10 +934,15 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
                     else:
                         ui.message(_("Folder has {count} items and {col_count} columns.").format(count=count, col_count=col_count))
                     return
-            except:
-                pass
+            except Exception as e:
+                log.debugWarning(f"EasyTableCopy.script_tableStats (explorer): {e}")
+            finally:
+                if shell is not None:
+                    try:
+                        del shell
+                    except Exception:
+                        pass
         
-        # Generic table handling for all contexts
         rows, cols = self.get_table_structure(table)
         
         if rows == 0:
@@ -970,8 +969,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
             try:
                 obj = ti.makeTextInfo(textInfos.POSITION_CARET).NVDAObjectAtStart
                 cell = self.find_object_by_role(obj, self.CELL_ROLES)
-            except:
-                pass
+            except Exception as e:
+                log.debugWarning(f"EasyTableCopy.script_copyCurrentCell (web): {e}")
         else:
             cell = self.find_object_by_role(focus, self.CELL_ROLES)
         
@@ -997,7 +996,6 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
     def script_copyMarkedAsText(self, gesture):
         """Copy marked rows as plain text lines - WEB ONLY"""
         if not self.is_web_context():
-            # If not on the web, don't do anything
             return
         
         if not self.marked_rows:
@@ -1032,7 +1030,6 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
             winsound.Beep(880, 100)
             count = len(text_lines)
             
-            # Clear marks after successful copy
             self.marked_rows = []
             
             if count == 1:
@@ -1044,21 +1041,21 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
     # MENU & INPUT HANDLERS
     # =========================================================================
     def on_menu_select(self, item_id, current_obj, original_hwnd):
-        if item_id == 1: # Standard (Native)
+        if item_id == 1:
             target = self.find_object_by_role(current_obj, self.TABLE_ROLES)
             if target: 
                 self.perform_native_copy(target, _("Table"), original_hwnd)
             else: 
                 ui.message(_("Target not found."))
-        elif item_id == 2: # Current Row
+        elif item_id == 2:
             target = self.find_object_by_role(current_obj, self.ROW_ROLES)
             if target: 
                 self.perform_native_copy(target, _("Row"), original_hwnd)
             else: 
                 ui.message(_("Target not found."))
-        elif item_id == 3: # Reconstructed (Plain Text)
+        elif item_id == 3:
             self.perform_full_table_manual(current_obj, original_hwnd)
-        elif item_id == 4: # Current Column
+        elif item_id == 4:
             target = self.find_object_by_role(current_obj, self.CELL_ROLES)
             if target:
                 idx = self.get_column_index(target)
@@ -1066,7 +1063,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
                     self.marked_col_indices.add(idx)
                     self.perform_marked_copy_manual(original_hwnd)
                     self.marked_col_indices.discard(idx)
-        elif item_id == 5: # Marked
+        elif item_id == 5:
             self.perform_marked_copy_manual(original_hwnd)
         elif item_id == 6:
             if not self.marked_rows and not self.marked_col_indices:
@@ -1083,8 +1080,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
         dummy_frame.SetFocus()
         try: 
             winUser.setForegroundWindow(dummy_frame.GetHandle())
-        except: 
-            pass
+        except Exception as e:
+            log.debugWarning(f"EasyTableCopy.show_phantom_menu (setForeground): {e}")
 
         menu = wx.Menu()
         menu.Append(1, _("Copy Table (Standard)"))
@@ -1113,8 +1110,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
         if dummy_frame:
             try: 
                 dummy_frame.Destroy()
-            except: 
-                pass
+            except Exception as e:
+                log.debugWarning(f"EasyTableCopy.show_phantom_menu (destroy): {e}")
             self._restore_focus(original_hwnd)
 
     @script_description(_("Opens Copy Menu (Web) or Copies List (Desktop)."))
@@ -1131,7 +1128,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
         if ti:
             try: 
                 obj = ti.makeTextInfo(textInfos.POSITION_CARET).NVDAObjectAtStart
-            except: 
+            except Exception as e:
+                log.debugWarning(f"EasyTableCopy.script_tableMenu (caret): {e}")
                 obj = api.getFocusObject()
             if self.find_object_by_role(obj, self.TABLE_ROLES):
                 hwnd = winUser.getForegroundWindow()
@@ -1165,7 +1163,6 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
     @script_description(_("Marks/Unmarks current row."))
     def script_markRow(self, gesture):
         if not self.get_context_tree_interceptor(): 
-            # Don't process the key if not on the web
             return
         if self.marked_col_indices:
             ui.message(_("Cannot mark rows while columns are selected."))
@@ -1173,8 +1170,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
         obj = None
         try: 
             obj = self.get_context_tree_interceptor().makeTextInfo(textInfos.POSITION_CARET).NVDAObjectAtStart
-        except: 
-            pass
+        except Exception as e:
+            log.debugWarning(f"EasyTableCopy.script_markRow: {e}")
         row = self.find_object_by_role(obj, self.ROW_ROLES)
         if row:
             if row in self.marked_rows:
@@ -1199,7 +1196,6 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
     @script_description(_("Marks/Unmarks current column."))
     def script_markColumn(self, gesture):
         if not self.get_context_tree_interceptor(): 
-            # Don't handle key if not on the web
             return
         if self.marked_rows:
             ui.message(_("Cannot mark columns while rows are selected."))
@@ -1207,8 +1203,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
         obj = None
         try: 
             obj = self.get_context_tree_interceptor().makeTextInfo(textInfos.POSITION_CARET).NVDAObjectAtStart
-        except: 
-            pass
+        except Exception as e:
+            log.debugWarning(f"EasyTableCopy.script_markColumn: {e}")
         cell = self.find_object_by_role(obj, self.CELL_ROLES)
         if cell:
             idx = self.get_column_index(cell)
@@ -1237,7 +1233,6 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
     @script_description(_("Clears selections."))
     def script_clearAll(self, gesture):
         if not self.get_context_tree_interceptor(): 
-            # Don't handle key if not on web
             return
         if not self.marked_rows and not self.marked_col_indices:
             ui.message(_("No selection to clear."))
@@ -1248,7 +1243,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
     def terminate(self):
         """Clean up on addon unload"""
-        gc.collect()
+        self.marked_rows = []
+        self.marked_col_indices.clear()
 
     __gestures = {
         "kb:alt+nvda+t": "tableMenu",
