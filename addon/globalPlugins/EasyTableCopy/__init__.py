@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# EasyTableCopy v2026.5.3
+# EasyTableCopy v2026.5.5
 # Author: Çağrı Doğan
 
 import globalPluginHandler
@@ -301,14 +301,23 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
             
             count_info = ""
             first_cell_empty = False
+            msg_override = None
 
             if obj.role in self.TABLE_ROLES:
                 rows = self.collect_rows_fast(obj)
                 count = len(rows)
-                if count == 1: 
-                    count_info = _(" (1 row)")
-                elif count > 1: 
-                    count_info = _(" ({count} rows)").format(count=count)
+                if obj.role == controlTypes.Role.LIST:
+                    if count == 1:
+                        msg_override = _("List copied (1 item).")
+                    elif count > 1:
+                        msg_override = _("List copied ({count} items).").format(count=count)
+                    else:
+                        msg_override = _("List copied.")
+                else:
+                    if count == 1: 
+                        count_info = _(" (1 row)")
+                    elif count > 1: 
+                        count_info = _(" ({count} rows)").format(count=count)
 
                 if rows:
                     first_row = rows[0]
@@ -337,20 +346,20 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
             winsound.Beep(440, 100) 
             keyboardHandler.KeyboardInputGesture.fromName("control+c").send()
             
-            wx.CallLater(CLIPBOARD_INITIAL_WAIT_MS, self._retry_clipboard_repair, label, count_info, 1, first_cell_empty)
+            wx.CallLater(CLIPBOARD_INITIAL_WAIT_MS, self._retry_clipboard_repair, label, count_info, 1, first_cell_empty, msg_override)
         except Exception as e:
             log.debugWarning(f"EasyTableCopy.perform_native_copy: {e}")
             ui.message(_("Selection failed."))
 
 
-    def _retry_clipboard_repair(self, label, count_info, attempt, first_cell_empty=False):
+    def _retry_clipboard_repair(self, label, count_info, attempt, first_cell_empty=False, msg_override=None):
         if not wx.TheClipboard.Open():
             if attempt < CLIPBOARD_MAX_RETRIES:
-                wx.CallLater(CLIPBOARD_RETRY_WAIT_MS, self._retry_clipboard_repair, label, count_info, attempt + 1, first_cell_empty)
+                wx.CallLater(CLIPBOARD_RETRY_WAIT_MS, self._retry_clipboard_repair, label, count_info, attempt + 1, first_cell_empty, msg_override)
                 return
             else:
                 log.debugWarning(f"EasyTableCopy._retry_clipboard_repair: Clipboard could not be opened after {CLIPBOARD_MAX_RETRIES} attempts.")
-                ui.message(_("{label} copied{count}.").format(label=label, count=count_info))
+                ui.message(msg_override if msg_override else _("{label} copied{count}.").format(label=label, count=count_info))
                 return
 
         try:
@@ -389,7 +398,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
                         wx.TheClipboard.SetData(new_data)
                     
                     winsound.Beep(880, 100)
-                    ui.message(_("{label} copied{count}.").format(label=label, count=count_info))
+                    ui.message(msg_override if msg_override else _("{label} copied{count}.").format(label=label, count=count_info))
         except Exception as e:
             log.debugWarning(f"EasyTableCopy._retry_clipboard_repair: {e}")
             ui.message(_("Error."))
@@ -1043,8 +1052,9 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
     def on_menu_select(self, item_id, current_obj, original_hwnd):
         if item_id == 1:
             target = self.find_object_by_role(current_obj, self.TABLE_ROLES)
-            if target: 
-                self.perform_native_copy(target, _("Table"), original_hwnd)
+            if target:
+                label = _("List") if target.role == controlTypes.Role.LIST else _("Table")
+                self.perform_native_copy(target, label, original_hwnd)
             else: 
                 ui.message(_("Target not found."))
         elif item_id == 2:
@@ -1072,8 +1082,41 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
                 self.marked_rows = []
                 self.marked_col_indices.clear()
                 ui.message(_("Selections cleared."))
+        elif item_id == 7:
+            self.copy_web_list_plain(current_obj)
 
-    def show_phantom_menu(self, current_obj, original_hwnd):
+    # Real table roles for web — LIST intentionally excluded
+    _WEB_TABLE_ROLE_NAMES = ["TABLE", "GRID", "LISTGRID"]
+    WEB_TABLE_ROLES = {getattr(controlTypes.Role, n) for n in _WEB_TABLE_ROLE_NAMES if hasattr(controlTypes.Role, n)}
+
+    def copy_web_list_plain(self, list_obj):
+        """Copy list as plain <ul><li> HTML + newline-separated text, no original formatting."""
+        items = []
+        def collect(node):
+            if node.role == controlTypes.Role.LISTITEM:
+                _, t = self.get_cell_text(node)
+                if t: items.append(t)
+            elif node.childCount > 0:
+                for child in node.children: collect(child)
+        collect(list_obj)
+        if not items:
+            ui.message(_("No items found."))
+            return
+        esc = lambda s: s.replace("&","&amp;").replace("<","&lt;").replace(">","&gt;")
+        html_out = "<html><body><ul>" + "".join(f"<li>{esc(i)}</li>" for i in items) + "</ul></body></html>"
+        text_out = "\n".join(items)
+        winsound.Beep(440, 100)
+        count = len(items)
+        if self.copy_manual_safe(html_out, text_out):
+            winsound.Beep(880, 100)
+            if count == 1:
+                ui.message(_("List copied (1 item)."))
+            else:
+                ui.message(_("List copied ({count} items).").format(count=count))
+        else:
+            ui.message(_("Copy failed."))
+
+    def show_phantom_menu(self, current_obj, original_hwnd, is_list=False):
         dummy_frame = wx.Frame(None, -1, "Helper", pos=(0,0), size=(1,1))
         dummy_frame.Show()
         dummy_frame.Raise() 
@@ -1084,20 +1127,19 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
             log.debugWarning(f"EasyTableCopy.show_phantom_menu (setForeground): {e}")
 
         menu = wx.Menu()
-        menu.Append(1, _("Copy Table (Standard)"))
-        menu.Append(2, _("Copy Current Row"))
-        menu.Append(3, _("Copy Table (Reconstructed)"))
-        menu.Append(4, _("Copy Current Column"))
-        
-        if self.marked_rows or self.marked_col_indices:
-            count = len(self.marked_rows) if self.marked_rows else len(self.marked_col_indices)
-            lbl = ""
-            if self.marked_rows:
-                lbl = _("rows") if count > 1 else _("row")
-            else:
-                lbl = _("columns") if count > 1 else _("column")
-            menu.Append(5, _("Copy Marked ({count} {lbl})").format(count=count, lbl=lbl))
-            menu.Append(6, _("Clear Selections"))
+        if is_list:
+            menu.Append(1, _("Copy List (With Formatting)"))
+            menu.Append(7, _("Copy List (Plain)"))
+        else:
+            menu.Append(1, _("Copy Table (Standard)"))
+            menu.Append(2, _("Copy Current Row"))
+            menu.Append(3, _("Copy Table (Reconstructed)"))
+            menu.Append(4, _("Copy Current Column"))
+            if self.marked_rows or self.marked_col_indices:
+                count = len(self.marked_rows) if self.marked_rows else len(self.marked_col_indices)
+                lbl = (_("rows") if count > 1 else _("row")) if self.marked_rows else (_("columns") if count > 1 else _("column"))
+                menu.Append(5, _("Copy Marked ({count} {lbl})").format(count=count, lbl=lbl))
+                menu.Append(6, _("Clear Selections"))
         menu.Append(wx.ID_CANCEL, _("Cancel"))
         
         def _cmd(evt):
@@ -1131,11 +1173,17 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
             except Exception as e:
                 log.debugWarning(f"EasyTableCopy.script_tableMenu (caret): {e}")
                 obj = api.getFocusObject()
-            if self.find_object_by_role(obj, self.TABLE_ROLES):
-                hwnd = winUser.getForegroundWindow()
-                wx.CallLater(10, self.show_phantom_menu, obj, hwnd)
-            else:
-                ui.message(_("Not on a table."))
+            hwnd = winUser.getForegroundWindow()
+            # Real table → Table menu
+            if self.find_object_by_role(obj, self.WEB_TABLE_ROLES):
+                wx.CallLater(10, self.show_phantom_menu, obj, hwnd, False)
+                return
+            # Web list → List menu
+            list_obj = self.find_object_by_role(obj, {controlTypes.Role.LIST})
+            if list_obj:
+                wx.CallLater(10, self.show_phantom_menu, list_obj, hwnd, True)
+                return
+            ui.message(_("Not on a table."))
         else:
             if self.copy_explorer_content(focus.windowHandle): 
                 return

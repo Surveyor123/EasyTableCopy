@@ -1,10 +1,11 @@
 # EasyTableCopy
 
-**EasyTableCopy** is an NVDA add-on designed to solve a common frustration: copying tables from the Web or lists from Windows into documents (like Word, Excel, or Outlook) without losing formatting, borders, or structure.
+**EasyTableCopy** is an NVDA add-on designed to solve a common frustration: copying tables or lists from the Web or from Windows into documents (like Word, Excel, or Outlook) without losing formatting, borders, or structure.
 
 ## 1. Key Features
 
 * **Dual Copy Engine:** Choose between "Standard" mode for best visual fidelity or "Reconstructed" mode for guaranteed structure integrity.
+* **Web List Support:** Copy lists from web pages with two options — preserve original formatting (fonts, colors, links) or copy as a clean plain list.
 * **Smart Selection:** Easily select non-adjacent rows or specific columns to copy.
 * **Desktop & Explorer Support:** Instantly convert File Explorer lists or application views into copyable tables. Copy specific columns or combinations of columns.
 * **TreeView Hierarchical Copy:** Copy nested tree structures (like the Input Gestures dialog) with proper indentation and expansion states.
@@ -16,7 +17,7 @@
 
 This feature works in Browse Mode within web browsers (Chrome, Edge, Firefox, etc.).
 
-### A. The Copy Menu
+### A. The Table Copy Menu
 
 Navigate inside any table on a website and press `NVDA + Alt + T` to open the action menu.
 
@@ -31,7 +32,20 @@ The "Safe Mode." The add-on ignores the browser and manually rebuilds the table 
 * **Copy Current Row:** Copies only the row where your cursor is located (Standard mode).
 * **Copy Current Column:** Manually extracts and copies the vertical column where your cursor is located.
 
-### B. Smart Selection (Marking)
+### B. The List Copy Menu
+
+Navigate inside any list on a website (bulleted or numbered) and press `NVDA + Alt + T` to open the list copy menu.
+
+* **Copy List (With Formatting):**
+Uses the browser's native copy function.
+*Pros:* Preserves exact fonts, colors, links, and all other original styling.
+*Cons:* Relies on the browser.
+* **Copy List (Plain):**
+The add-on reads the list items and builds a clean `<ul><li>` structure.
+*Pros:* Produces a clean, portable list. Each item is on its own line in plain text.
+*Cons:* Original visual styling (fonts, colors) is not preserved.
+
+### C. Smart Selection (Marking)
 
 You can select specific items to copy in a batch. **Note:** You can mark Rows OR Columns, but not both simultaneously.
 
@@ -51,7 +65,7 @@ You can select specific items to copy in a batch. **Note:** You can mark Rows OR
 
 > **Note:** To clear your selections, press `Control + Alt + Windows + Space` or use the "Clear Selections" option in the menu.
 
-### C. Additional Web Features
+### D. Additional Web Features
 
 * **Copy Marked Rows as Text:** After marking rows, you can copy them as plain text without table structure using the `Copy Marked as Text` command (no default key, assign in Input Gestures).
 * **Copy Current Cell:** Quickly copy the content of the current cell using the `Copy Current Cell` command.
@@ -69,8 +83,6 @@ EasyTableCopy also works in File Explorer, standard list views, and hierarchical
 * `[+]` indicates a collapsed branch.
 * `[-]` indicates an expanded branch.
 
-
-
 ### B. Column-Specific Copying (Desktop & Explorer Only)
 
 You can copy individual columns or combinations of columns from any desktop list or Explorer view. These commands only work in desktop contexts (not in web browsers).
@@ -81,13 +93,13 @@ You can copy individual columns or combinations of columns from any desktop list
 | Copy Column 2 | Copies the second column (usually Size or Type) |
 | Copy Column 3 | Copies the third column (usually Date Modified) |
 | Copy Columns 1-2 | Copies the first and second columns together |
-| Copy Columns 1-3 | Copies the first, second, and third columns together |
+| Copy Columns 1-3 | Copies the first three columns together |
 | Copy Columns 1 and 3 | Copies the first and third columns (skipping the second) |
 
 **How to use:**
 
 1. Focus on any list or Explorer window.
-2. Press the key you've assigned to the desired column command (no default keys - assign in Input Gestures).
+2. Press the key you've assigned to the desired column command (no default keys — assign in Input Gestures).
 3. The selected columns will be copied as a table with headers.
 
 ### C. Table Statistics in Desktop Mode
@@ -118,20 +130,18 @@ Use the `Copy Current Cell` command anywhere to quickly copy just the content of
 
 ## 5. Shortcuts Cheat Sheet
 
-*(You can customize all shortcuts in NVDA Menu -> Preferences -> Input Gestures -> EasyTableCopy)*
+*(You can customize all shortcuts in NVDA Menu → Preferences → Input Gestures → EasyTableCopy)*
 
 ### Default Shortcuts
 
 | Shortcut | Function | Context |
 | --- | --- | --- |
-| `NVDA + Alt + T` | Open Menu (Web) / Copy List or Tree (Desktop) | Everywhere |
+| `NVDA + Alt + T` | Open Table/List Menu (Web) / Copy List or Tree (Desktop) | Everywhere |
 | `Ctrl + Alt + Space` | Mark/Unmark Row | Web Only |
 | `Ctrl + Alt + Shift + Space` | Mark/Unmark Column | Web Only |
 | `Ctrl + Alt + Win + Space` | Clear All Selections | Web Only |
 
 ### No Default Shortcuts (Assign Your Own)
-
-These commands have no default key assignments. To use them, assign your own shortcuts in NVDA's Input Gestures dialog:
 
 | Command | Description | Context |
 | --- | --- | --- |
