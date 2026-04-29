@@ -18,15 +18,12 @@ addon_info = AddonInfo(
 	addon_description=_("""EasyTableCopy is an NVDA add-on designed to solve a common frustration: copying tables from the Web or lists from Windows into documents (like Word, Excel, or Outlook) without losing formatting or layout."""),
 	
 	# version
-	addon_version="2026.5.5",
+	addon_version="2026.6.0",
 	
 	# Brief changelog for this version
 	# Translators: what's new content for the add-on version
 	addon_changelog=_("""
-* Added web list copy support: pressing the copy shortcut on a web list (bulleted or numbered) now opens a dedicated menu with two options.
-  - Copy List (With Formatting): uses the browser's native copy to preserve fonts, colors, and links.
-  - Copy List (Plain): builds a clean <ul><li> structure with each item on its own line in plain text.
-* Web context now correctly distinguishes real tables (TABLE, GRID, LISTGRID roles) from plain lists (LIST role), preventing lists from being treated as tables.
+2026.1 compatibility.
 """),
 	
 	# Author(s)
