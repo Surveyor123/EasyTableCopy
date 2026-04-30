@@ -2,15 +2,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: EasyTableCopy 2026.5.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-11 07:13+0300\n"
-"PO-Revision-Date: 2026-03-11 07:20+0300\n"
+"POT-Creation-Date: 2026-04-30 07:15+0300\n"
+"PO-Revision-Date: 2026-04-30 07:15+0300\n"
 "Last-Translator: Cagri\n"
 "Language-Team: \n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.8\n"
+"X-Generator: Poedit 3.9\n"
 "X-Poedit-Basepath: ../../../..\n"
 "X-Poedit-SearchPath-0: buildVars.py\n"
 "X-Poedit-SearchPath-1: addon/globalPlugins/EasyTableCopy/__init__.py\n"
@@ -19,438 +19,475 @@ msgstr ""
 msgid "EasyTableCopy"
 msgstr "EasyTableCopy"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:311
-#: addon/globalPlugins/EasyTableCopy/__init__.py:701
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1113
+#: addon/globalPlugins/EasyTableCopy/__init__.py:319
+#: addon/globalPlugins/EasyTableCopy/__init__.py:709
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1129
 msgid "List copied (1 item)."
 msgstr "Liste kopyalandı (1 öğe)."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:313
-#: addon/globalPlugins/EasyTableCopy/__init__.py:703
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1115
+#: addon/globalPlugins/EasyTableCopy/__init__.py:321
+#: addon/globalPlugins/EasyTableCopy/__init__.py:711
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1131
 #, python-brace-format
 msgid "List copied ({count} items)."
 msgstr "Liste kopyalandı ({count} öğe)."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:315
+#: addon/globalPlugins/EasyTableCopy/__init__.py:323
 msgid "List copied."
 msgstr "Liste kopyalandı."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:318
+#: addon/globalPlugins/EasyTableCopy/__init__.py:326
 msgid " (1 row)"
 msgstr " (1 satır)"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:320
+#: addon/globalPlugins/EasyTableCopy/__init__.py:328
 #, python-brace-format
 msgid " ({count} rows)"
 msgstr " ({count} satır)"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:339
+#: addon/globalPlugins/EasyTableCopy/__init__.py:347
 msgid " (1 cell)"
 msgstr " (1 hücre)"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:341
+#: addon/globalPlugins/EasyTableCopy/__init__.py:349
 #, python-brace-format
 msgid " ({count} cells)"
 msgstr " ({count} hücre)"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:352
+#: addon/globalPlugins/EasyTableCopy/__init__.py:360
 msgid "Selection failed."
 msgstr "Seçim başarısız."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:362
-#: addon/globalPlugins/EasyTableCopy/__init__.py:401
+#: addon/globalPlugins/EasyTableCopy/__init__.py:370
+#: addon/globalPlugins/EasyTableCopy/__init__.py:409
 #, python-brace-format
 msgid "{label} copied{count}."
 msgstr "{label} kopyalandı{count}."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:404
+#: addon/globalPlugins/EasyTableCopy/__init__.py:412
 msgid "Error."
 msgstr "Hata."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:415
+#: addon/globalPlugins/EasyTableCopy/__init__.py:423
 msgid "Table not found."
 msgstr "Tablo bulunamadı."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:423
-#: addon/globalPlugins/EasyTableCopy/__init__.py:856
-#: addon/globalPlugins/EasyTableCopy/__init__.py:958
+#: addon/globalPlugins/EasyTableCopy/__init__.py:431
+#: addon/globalPlugins/EasyTableCopy/__init__.py:864
+#: addon/globalPlugins/EasyTableCopy/__init__.py:966
 msgid "Table is empty."
 msgstr "Tablo boş."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:434
+#: addon/globalPlugins/EasyTableCopy/__init__.py:442
 msgid "Table copied (1 row)."
 msgstr "Tablo kopyalandı (1 satır)."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:436
+#: addon/globalPlugins/EasyTableCopy/__init__.py:444
 #, python-brace-format
 msgid "Table copied ({count} rows)."
 msgstr "Tablo kopyalandı ({count} satır)."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:439
-#: addon/globalPlugins/EasyTableCopy/__init__.py:505
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1117
+#: addon/globalPlugins/EasyTableCopy/__init__.py:447
+#: addon/globalPlugins/EasyTableCopy/__init__.py:513
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1133
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1161
 msgid "Copy failed."
 msgstr "Kopyalama başarısız."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:476
+#: addon/globalPlugins/EasyTableCopy/__init__.py:484
 msgid "Error: No items to copy."
 msgstr "Hata: Kopyalanacak öğe yok."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:491
+#: addon/globalPlugins/EasyTableCopy/__init__.py:499
 msgid "Copied 1 row."
 msgstr "1 satır kopyalandı."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:493
+#: addon/globalPlugins/EasyTableCopy/__init__.py:501
 #, python-brace-format
 msgid "Copied {count} rows."
 msgstr "{count} satır kopyalandı."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:497
+#: addon/globalPlugins/EasyTableCopy/__init__.py:505
 msgid "Copied 1 column."
 msgstr "1 sütun kopyalandı."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:499
+#: addon/globalPlugins/EasyTableCopy/__init__.py:507
 #, python-brace-format
 msgid "Copied {count} columns."
 msgstr "{count} sütun kopyalandı."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:530
-#: addon/globalPlugins/EasyTableCopy/__init__.py:806
-#: addon/globalPlugins/EasyTableCopy/__init__.py:932
+#: addon/globalPlugins/EasyTableCopy/__init__.py:538
+#: addon/globalPlugins/EasyTableCopy/__init__.py:814
+#: addon/globalPlugins/EasyTableCopy/__init__.py:940
 msgid "Folder is empty."
 msgstr "Klasör boş."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:552
+#: addon/globalPlugins/EasyTableCopy/__init__.py:560
 msgid "Folder copied (1 item)."
 msgstr "Klasör kopyalandı (1 öğe)."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:554
+#: addon/globalPlugins/EasyTableCopy/__init__.py:562
 #, python-brace-format
 msgid "Folder copied ({count} items)."
 msgstr "Klasör kopyalandı ({count} öğe)."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:649
+#: addon/globalPlugins/EasyTableCopy/__init__.py:657
 msgid "No tree items found. Try expanding the branches you wish to copy."
 msgstr ""
 "Herhangi bir ağaç öğesi bulunamadı. Kopyalamak istediğiniz dalları "
 "genişletmeyi deneyin."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:655
+#: addon/globalPlugins/EasyTableCopy/__init__.py:663
 #, python-brace-format
 msgid "Full tree structure copied ({count} items)."
 msgstr "Tam ağaç yapısı kopyalandı ({count} öğe)."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:664
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1103
+#: addon/globalPlugins/EasyTableCopy/__init__.py:672
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1119
 msgid "No items found."
 msgstr "Öğe bulunamadı."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:695
+#: addon/globalPlugins/EasyTableCopy/__init__.py:703
 msgid "No accessible text found."
 msgstr "Erişilebilir metin bulunamadı."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:705
+#: addon/globalPlugins/EasyTableCopy/__init__.py:713
 msgid "Clipboard error. Try again."
 msgstr "Pano hatası. Tekrar deneyin."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:708
+#: addon/globalPlugins/EasyTableCopy/__init__.py:716
 msgid "Error processing list."
 msgstr "Liste işlenirken hata oluştu."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:743
+#: addon/globalPlugins/EasyTableCopy/__init__.py:751
 msgid "Copies first column from current table (desktop only)."
 msgstr "Mevcut tablodan ilk sütunu kopyalar (yalnızca masaüstü)."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:747
+#: addon/globalPlugins/EasyTableCopy/__init__.py:755
 msgid "Column 1"
 msgstr "Sütun 1"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:749
+#: addon/globalPlugins/EasyTableCopy/__init__.py:757
 msgid "Copies second column from current table (desktop only)."
 msgstr "Mevcut tablodan ikinci sütunu kopyalar (yalnızca masaüstü)."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:753
+#: addon/globalPlugins/EasyTableCopy/__init__.py:761
 msgid "Column 2"
 msgstr "Sütun 2"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:755
+#: addon/globalPlugins/EasyTableCopy/__init__.py:763
 msgid "Copies third column from current table (desktop only)."
 msgstr "Mevcut tablodan üçüncü sütunu kopyalar (yalnızca masaüstü)."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:759
+#: addon/globalPlugins/EasyTableCopy/__init__.py:767
 msgid "Column 3"
 msgstr "Sütun 3"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:761
+#: addon/globalPlugins/EasyTableCopy/__init__.py:769
 msgid "Copies first and second columns from current table (desktop only)."
 msgstr "Mevcut tablodan ilk ve ikinci sütunu kopyalar (yalnızca masaüstü)."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:765
+#: addon/globalPlugins/EasyTableCopy/__init__.py:773
 msgid "Columns 1-2"
 msgstr "Sütun 1-2"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:767
+#: addon/globalPlugins/EasyTableCopy/__init__.py:775
 msgid "Copies first and third columns from current table (desktop only)."
 msgstr "Mevcut tablodan ilk ve üçüncü sütunu kopyalar (yalnızca masaüstü)."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:771
-#: addon/globalPlugins/EasyTableCopy/__init__.py:777
+#: addon/globalPlugins/EasyTableCopy/__init__.py:779
+#: addon/globalPlugins/EasyTableCopy/__init__.py:785
 msgid "Columns 1-3"
 msgstr "Sütun 1-3"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:773
+#: addon/globalPlugins/EasyTableCopy/__init__.py:781
 msgid "Copies first three columns from current table (desktop only)."
 msgstr "Mevcut tablodan ilk üç sütunu kopyalar (yalnızca masaüstü)."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:783
-#: addon/globalPlugins/EasyTableCopy/__init__.py:909
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1186
+#: addon/globalPlugins/EasyTableCopy/__init__.py:791
+#: addon/globalPlugins/EasyTableCopy/__init__.py:917
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1235
 msgid "Not on a table."
 msgstr "Tabloda değil."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:842
+#: addon/globalPlugins/EasyTableCopy/__init__.py:850
 #, python-brace-format
 msgid "{label} ({count} items) copied."
 msgstr "{label} ({count} öğe) kopyalandı."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:890
+#: addon/globalPlugins/EasyTableCopy/__init__.py:898
 msgid "No data found."
 msgstr "Veri bulunamadı."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:898
+#: addon/globalPlugins/EasyTableCopy/__init__.py:906
 #, python-brace-format
 msgid "{label} ({count} rows) copied."
 msgstr "{label} ({count} satır) kopyalandı."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:903
+#: addon/globalPlugins/EasyTableCopy/__init__.py:911
 msgid "Announces table dimensions."
 msgstr "Tablo bilgilerini seslendirir."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:942
+#: addon/globalPlugins/EasyTableCopy/__init__.py:950
 #, python-brace-format
 msgid "Folder has {count} items."
 msgstr "Klasörde {count} öğe var."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:944
+#: addon/globalPlugins/EasyTableCopy/__init__.py:952
 #, python-brace-format
 msgid "Folder has {count} items and {col_count} columns."
 msgstr "Klasörde {count} öğe ve {col_count} sütun var."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:963
+#: addon/globalPlugins/EasyTableCopy/__init__.py:971
 #, python-brace-format
 msgid "Table has {rows} rows."
 msgstr "Tabloda {rows} satır var."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:965
+#: addon/globalPlugins/EasyTableCopy/__init__.py:973
 #, python-brace-format
 msgid "Table has {rows} rows and {cols} columns."
 msgstr "Tabloda {rows} satır ve {cols} sütun var."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:970
+#: addon/globalPlugins/EasyTableCopy/__init__.py:978
 msgid "Copies current cell content quickly."
 msgstr "Geçerli hücrenin içeriğini kopyalar."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:987
+#: addon/globalPlugins/EasyTableCopy/__init__.py:995
 msgid "Not in a cell."
 msgstr "Bir hücrede değil."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:994
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1002
 msgid "Cell is empty."
 msgstr "Hücre boş."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:999
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1007
 msgid "Cell copied."
 msgstr "Hücre kopyalandı."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1004
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1012
 msgid "Copies marked rows as plain text without table structure (web only)."
 msgstr ""
 "İşaretli satırları tablo yapısı olmadan düz metin olarak kopyalar (yalnızca "
 "web)."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1011
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1019
 msgid "No rows marked."
 msgstr "İşaretli satır yok."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1032
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1040
 msgid "No text found."
 msgstr "Metin bulunamadı."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1045
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1053
 msgid "Marked row copied as text."
 msgstr "İşaretli satır metin olarak kopyalandı."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1047
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1055
 #, python-brace-format
 msgid "Marked rows copied as text ({count} rows)."
 msgstr "İşaretli satırlar metin olarak kopyalandı ({count} satır)."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1056
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1064
 msgid "List"
 msgstr "Liste"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1056
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1064
 msgid "Table"
 msgstr "Tablo"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1059
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1065
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1067
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1073
 msgid "Target not found."
 msgstr "Hedef bulunamadı."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1063
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1071
 msgid "Row"
 msgstr "Satır"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1080
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1286
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1088
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1099
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1339
 msgid "No selection to clear."
 msgstr "Temizlenecek seçim yok."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1084
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1290
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1092
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1102
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1343
 msgid "Selections cleared."
 msgstr "Seçimler temizlendi."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1131
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1138
+msgid "No items marked."
+msgstr "İşaretli öğe yok."
+
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1147
+msgid "No text found in marked items."
+msgstr "İşaretli öğelerde metin bulunamadı."
+
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1157
+msgid "Marked item copied (1 item)."
+msgstr "İşaretli öğe kopyalandı (1 öğe)."
+
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1159
+#, python-brace-format
+msgid "Marked items copied ({count} items)."
+msgstr "İşaretli öğeler kopyalandı ({count} öğe)."
+
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1175
 msgid "Copy List (With Formatting)"
 msgstr "Listeyi Kopyala (Biçimli)"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1132
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1176
 msgid "Copy List (Plain)"
 msgstr "Listeyi Kopyala (Düz)"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1134
-msgid "Copy Table (Standard)"
-msgstr "Tabloyu Kopyala (Standart)"
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1179
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1276
+msgid "item"
+msgstr "öğe"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1135
-msgid "Copy Current Row"
-msgstr "Geçerli Satırı Kopyala"
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1179
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1277
+msgid "items"
+msgstr "öğe"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1136
-msgid "Copy Table (Reconstructed)"
-msgstr "Tabloyu Kopyala (Yeniden Oluşturulan)"
-
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1137
-msgid "Copy Current Column"
-msgstr "Geçerli Sütunu Kopyala"
-
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1140
-msgid "rows"
-msgstr "satır"
-
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1140
-msgid "row"
-msgstr "satır"
-
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1140
-msgid "columns"
-msgstr "sütun"
-
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1140
-msgid "column"
-msgstr "sütun"
-
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1141
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1180
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1190
 #, python-brace-format
 msgid "Copy Marked ({count} {lbl})"
 msgstr "İşaretlileri Kopyala ({count} {lbl})"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1142
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1181
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1191
 msgid "Clear Selections"
 msgstr "Seçimleri Temizle"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1143
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1183
+msgid "Copy Table (Standard)"
+msgstr "Tabloyu Kopyala (Standart)"
+
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1184
+msgid "Copy Current Row"
+msgstr "Geçerli Satırı Kopyala"
+
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1185
+msgid "Copy Table (Reconstructed)"
+msgstr "Tabloyu Kopyala (Yeniden Oluşturulan)"
+
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1186
+msgid "Copy Current Column"
+msgstr "Geçerli Sütunu Kopyala"
+
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1189
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1277
+msgid "rows"
+msgstr "satır"
+
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1189
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1276
+msgid "row"
+msgstr "satır"
+
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1189
+msgid "columns"
+msgstr "sütun"
+
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1189
+msgid "column"
+msgstr "sütun"
+
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1192
 msgid "Cancel"
 msgstr "İptal"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1159
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1208
 msgid "Opens Copy Menu (Web) or Copies List (Desktop)."
 msgstr "Kopyalama menüsünü açar (Web) veya listeyi kopyalar (Masaüstü)."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1166
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1215
 msgid "Use standard copy (Ctrl+C) in this application."
 msgstr "Bu uygulamada standart kopyalama (Ctrl+C) kullanın."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1209
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1258
 msgid "Focus is not on a list or table."
 msgstr "Odak bir liste veya tablo üzerinde değil."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1211
-msgid "Marks/Unmarks current row."
-msgstr "Geçerli satırı işaretler veya işareti kaldırır."
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1260
+msgid "Marks/Unmarks current row or list item."
+msgstr "Geçerli satırı ya da liste öğesini işaretler veya işareti kaldırır."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1216
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1265
 msgid "Cannot mark rows while columns are selected."
 msgstr "Sütunlar seçiliyken satır işaretlenemez."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1229
-msgid "Row Unmarked."
-msgstr "Satır işareti kaldırıldı."
-
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1231
-msgid "Row Unmarked. Total: 1 row"
-msgstr "Satır işareti kaldırıldı. Toplam: 1 satır"
-
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1233
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1282
 #, python-brace-format
-msgid "Row Unmarked. Total: {count} rows"
-msgstr "Satır işareti kaldırıldı. Toplam: {count} satır"
+msgid "{lbl} Unmarked."
+msgstr "{lbl} işareti kaldırıldı."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1238
-msgid "Row Marked. Total: 1 row"
-msgstr "Satır işaretlendi. Toplam: 1 satır"
-
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1240
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1284
 #, python-brace-format
-msgid "Row Marked. Total: {count} rows"
-msgstr "Satır işaretlendi. Toplam: {count} satır"
+msgid "{lbl} Unmarked. Total: 1 {lbl}"
+msgstr "{lbl} işareti kaldırıldı. Toplam: 1 {lbl}"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1242
-msgid "Not a row."
-msgstr "Bir satır değil."
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1286
+#, python-brace-format
+msgid "{lbl} Unmarked. Total: {count} {lbl_pl}"
+msgstr "{lbl} işareti kaldırıldı. Toplam: {count} {lbl_pl}"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1244
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1291
+#, python-brace-format
+msgid "{lbl} Marked. Total: 1 {lbl}"
+msgstr "{lbl} işaretlendi. Toplam: 1 {lbl}"
+
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1293
+#, python-brace-format
+msgid "{lbl} Marked. Total: {count} {lbl_pl}"
+msgstr "{lbl} işaretlendi. Toplam: {count} {lbl_pl}"
+
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1295
+msgid "Not a row or list item."
+msgstr "Bir satır veya liste öğesi değil."
+
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1297
 msgid "Marks/Unmarks current column."
 msgstr "Geçerli sütunu işaretler veya işareti kaldırır."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1249
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1302
 msgid "Cannot mark columns while rows are selected."
 msgstr "Satırlar seçiliyken sütun işaretlenemez."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1264
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1317
 msgid "Column Unmarked."
 msgstr "Sütun işareti kaldırıldı."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1266
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1319
 msgid "Column Unmarked. Total: 1 column"
 msgstr "Sütun işareti kaldırıldı. Toplam: 1 sütun"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1268
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1321
 #, python-brace-format
 msgid "Column Unmarked. Total: {count} columns"
 msgstr "Sütun işareti kaldırıldı. Toplam: {count} sütun"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1273
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1326
 msgid "Column Marked. Total: 1 column"
 msgstr "Sütun işaretlendi. Toplam: 1 sütun"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1275
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1328
 #, python-brace-format
 msgid "Column Marked. Total: {count} columns"
 msgstr "Sütun işaretlendi. Toplam: {count} sütun"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1277
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1330
 msgid "Index error."
 msgstr "İndeks hatası."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1279
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1332
 msgid "Not a cell."
 msgstr "Bir hücre değil."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1281
+#: addon/globalPlugins/EasyTableCopy/__init__.py:1334
 msgid "Clears selections."
 msgstr "Tüm işaretli seçimleri temizler."
 
@@ -471,27 +508,70 @@ msgstr ""
 #: buildVars.py:25
 msgid ""
 "\n"
-"* Added web list copy support: pressing the copy shortcut on a web list "
-"(bulleted or numbered) now opens a dedicated menu with two options.\n"
-"  - Copy List (With Formatting): uses the browser's native copy to preserve "
-"fonts, colors, and links.\n"
-"  - Copy List (Plain): builds a clean <ul><li> structure with each item on "
-"its own line in plain text.\n"
-"* Web context now correctly distinguishes real tables (TABLE, GRID, LISTGRID "
-"roles) from plain lists (LIST role), preventing lists from being treated as "
-"tables.\n"
+"- 2026.1 compatibility.\n"
+"- Plain copy now captures button and interactive element text\n"
+"- Buttons like \"Manage cookies\" or \"Do not share my personal "
+"information\" were silently dropped from plain-text output. get_cell_text() "
+"now recurses into all child nodes instead of filtering by CONTENT_ROLES.\n"
+"- Mark and copy selected items in web lists\n"
+"Use Ctrl+Alt+Space on any list item to mark/unmark it. Then open the list "
+"menu (Alt+NVDA+T) — a \"Copy Marked (N items)\" option appears when items "
+"are selected. Copies as <ul><li> HTML + plain text. Clears selection after "
+"copy.\n"
+"- List menu now shows \"Clear Selections\" when items are marked\n"
+"Mirrors the existing table behavior. Accessible via menu item 9.\n"
+"- Mark feedback says \"item\" instead of \"row\" in list context\n"
+"script_markRow detects LISTITEM role and announces \"Item Marked / Item "
+"Unmarked\" accordingly. Table rows still say \"Row\".\n"
 msgstr ""
 "\n"
-"* Web listesi kopyalama desteği eklendi: bir web listesinde (madde işaretli "
-"veya numaralı) kopyalama kısayoluna basıldığında iki seçenekli bir menü "
-"açılıyor.\n"
-"  - Listeyi Kopyala (Biçimli): yazı tiplerini, renkleri ve bağlantıları "
-"korumak için tarayıcının kendi kopyalama yöntemini kullanır.\n"
-"  - Listeyi Kopyala (Düz): temiz bir `<ul><li>` yapısı oluşturur; düz "
-"metinde her öğe ayrı satırda yer alır.\n"
-"* Web bağlamında artık gerçek tablolar (TABLE, GRID, LISTGRID rolleri) ile "
-"düz listeler (LIST rolü) doğru şekilde ayırt ediliyor; listelerin tablo "
-"olarak algılanmasının önüne geçildi.\n"
+"- 2026.1 uyumluluğu.\n"
+"- Düz kopya artık buton ve etkileşimli öğe metinlerini de yakalar\n"
+"- \"Manage cookies\" veya \"Do not share my personal information\" gibi "
+"butonlar düz metin çıktısından sessizce düşüyordu. `get_cell_text()` artık "
+"`CONTENT_ROLES` filtresi yerine tüm alt düğümlere özyinelemeli olarak "
+"iniyor.\n"
+"- Web listelerinde öğe işaretleme ve kopyalama\n"
+"Herhangi bir liste öğesinde `Ctrl+Alt+Space` ile işaretle/işareti kaldır. "
+"Ardından liste menüsünü aç (`Alt+NVDA+T`) — öğe seçiliyken \"İşaretlileri "
+"Kopyala (N öğe)\" seçeneği belirir. `<ul><li>` HTML + düz metin olarak "
+"kopyalar. Kopyalamadan sonra seçimi temizler.\n"
+"- Öğe işaretliyken liste menüsünde \"Seçimleri Temizle\" gösterilir\n"
+"Mevcut tablo davranışını yansıtır. Menü öğesi 9 üzerinden erişilebilir.\n"
+"- Liste bağlamında işaretleme geri bildirimi \"satır\" yerine \"öğe\" der\n"
+"`script_markRow`, `LISTITEM` rolünü algılar ve buna göre \"Öğe İşaretlendi / "
+"Öğe İşareti Kaldırıldı\" duyurur. Tablo satırları hâlâ \"Satır\" der.\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "2026.1 compatibility.\n"
+#~ msgstr ""
+#~ "\n"
+#~ "2026.1 uyumluluğu.\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "* Added web list copy support: pressing the copy shortcut on a web list "
+#~ "(bulleted or numbered) now opens a dedicated menu with two options.\n"
+#~ "  - Copy List (With Formatting): uses the browser's native copy to "
+#~ "preserve fonts, colors, and links.\n"
+#~ "  - Copy List (Plain): builds a clean <ul><li> structure with each item "
+#~ "on its own line in plain text.\n"
+#~ "* Web context now correctly distinguishes real tables (TABLE, GRID, "
+#~ "LISTGRID roles) from plain lists (LIST role), preventing lists from being "
+#~ "treated as tables.\n"
+#~ msgstr ""
+#~ "\n"
+#~ "* Web listesi kopyalama desteği eklendi: bir web listesinde (madde "
+#~ "işaretli veya numaralı) kopyalama kısayoluna basıldığında iki seçenekli "
+#~ "bir menü açılıyor.\n"
+#~ "  - Listeyi Kopyala (Biçimli): yazı tiplerini, renkleri ve bağlantıları "
+#~ "korumak için tarayıcının kendi kopyalama yöntemini kullanır.\n"
+#~ "  - Listeyi Kopyala (Düz): temiz bir `<ul><li>` yapısı oluşturur; düz "
+#~ "metinde her öğe ayrı satırda yer alır.\n"
+#~ "* Web bağlamında artık gerçek tablolar (TABLE, GRID, LISTGRID rolleri) "
+#~ "ile düz listeler (LIST rolü) doğru şekilde ayırt ediliyor; listelerin "
+#~ "tablo olarak algılanmasının önüne geçildi.\n"
 
 #~ msgid ""
 #~ "\n"

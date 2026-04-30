@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# EasyTableCopy v2026.5.5
+# EasyTableCopy v2026.6.1
 # Author: Çağrı Doğan
 
 import globalPluginHandler
@@ -137,26 +137,34 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
         
         if obj is None:
             return "", ""
-        
-        if obj.childCount > 0:
-            text_parts = []
-            for child in obj.children:
-                if child.role in self.CONTENT_ROLES or child.childCount > 0:
-                    h, t = self.get_cell_text(child, depth + 1)
-                    if t:
-                        text_parts.append(t)
-            
-            if text_parts:
-                plain_text = " ".join(text_parts)
-                html_text = plain_text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-                return html_text, plain_text
-            return "", ""
-        else:
+
+        # Always try to get text from leaf nodes regardless of role
+        if obj.childCount == 0:
             raw = (obj.name or obj.value or "").strip()
             if raw:
                 html = raw.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
                 return html, raw
             return "", ""
+
+        # For nodes with children: recurse into all children (not just CONTENT_ROLES)
+        # This ensures BUTTON, MENUITEM, etc. are not skipped.
+        text_parts = []
+        for child in obj.children:
+            h, t = self.get_cell_text(child, depth + 1)
+            if t:
+                text_parts.append(t)
+
+        if text_parts:
+            plain_text = " ".join(text_parts)
+            html_text = plain_text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+            return html_text, plain_text
+
+        # Fallback: use obj.name/value if no children yielded text
+        raw = (obj.name or obj.value or "").strip()
+        if raw:
+            html = raw.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+            return html, raw
+        return "", ""
 
     def copy_manual_safe(self, html, text):
         """Fast clipboard handling"""
@@ -1084,6 +1092,14 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
                 ui.message(_("Selections cleared."))
         elif item_id == 7:
             self.copy_web_list_plain(current_obj)
+        elif item_id == 8:
+            self.copy_web_list_marked()
+        elif item_id == 9:
+            if not self.marked_rows:
+                ui.message(_("No selection to clear."))
+            else:
+                self.marked_rows = []
+                ui.message(_("Selections cleared."))
 
     # Real table roles for web — LIST intentionally excluded
     _WEB_TABLE_ROLE_NAMES = ["TABLE", "GRID", "LISTGRID"]
@@ -1116,6 +1132,34 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
         else:
             ui.message(_("Copy failed."))
 
+    def copy_web_list_marked(self):
+        """Copy only the marked list items as plain text + HTML list."""
+        if not self.marked_rows:
+            ui.message(_("No items marked."))
+            return
+        esc = lambda s: s.replace("&","&amp;").replace("<","&lt;").replace(">","&gt;")
+        items = []
+        for node in self.marked_rows:
+            _, t = self.get_cell_text(node)
+            if t:
+                items.append(t)
+        if not items:
+            ui.message(_("No text found in marked items."))
+            return
+        html_out = "<html><body><ul>" + "".join(f"<li>{esc(i)}</li>" for i in items) + "</ul></body></html>"
+        text_out = "\n".join(items)
+        winsound.Beep(440, 100)
+        count = len(items)
+        if self.copy_manual_safe(html_out, text_out):
+            winsound.Beep(880, 100)
+            self.marked_rows = []
+            if count == 1:
+                ui.message(_("Marked item copied (1 item)."))
+            else:
+                ui.message(_("Marked items copied ({count} items).").format(count=count))
+        else:
+            ui.message(_("Copy failed."))
+
     def show_phantom_menu(self, current_obj, original_hwnd, is_list=False):
         dummy_frame = wx.Frame(None, -1, "Helper", pos=(0,0), size=(1,1))
         dummy_frame.Show()
@@ -1130,6 +1174,11 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
         if is_list:
             menu.Append(1, _("Copy List (With Formatting)"))
             menu.Append(7, _("Copy List (Plain)"))
+            if self.marked_rows:
+                count = len(self.marked_rows)
+                lbl = _("item") if count == 1 else _("items")
+                menu.Append(8, _("Copy Marked ({count} {lbl})").format(count=count, lbl=lbl))
+                menu.Append(9, _("Clear Selections"))
         else:
             menu.Append(1, _("Copy Table (Standard)"))
             menu.Append(2, _("Copy Current Row"))
@@ -1208,7 +1257,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
             else:
                 ui.message(_("Focus is not on a list or table."))
 
-    @script_description(_("Marks/Unmarks current row."))
+    @script_description(_("Marks/Unmarks current row or list item."))
     def script_markRow(self, gesture):
         if not self.get_context_tree_interceptor(): 
             return
@@ -1222,24 +1271,28 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
             log.debugWarning(f"EasyTableCopy.script_markRow: {e}")
         row = self.find_object_by_role(obj, self.ROW_ROLES)
         if row:
+            # Use "item" label for list items, "row" for table rows
+            is_list_item = (row.role == controlTypes.Role.LISTITEM)
+            lbl_single = _("item") if is_list_item else _("row")
+            lbl_plural = _("items") if is_list_item else _("rows")
             if row in self.marked_rows:
                 self.marked_rows.remove(row)
                 c = len(self.marked_rows)
                 if c == 0: 
-                    ui.message(_("Row Unmarked."))
+                    ui.message(_("{lbl} Unmarked.").format(lbl=lbl_single.capitalize()))
                 elif c == 1: 
-                    ui.message(_("Row Unmarked. Total: 1 row"))
+                    ui.message(_("{lbl} Unmarked. Total: 1 {lbl}").format(lbl=lbl_single.capitalize()))
                 else: 
-                    ui.message(_("Row Unmarked. Total: {count} rows").format(count=c))
+                    ui.message(_("{lbl} Unmarked. Total: {count} {lbl_pl}").format(lbl=lbl_single.capitalize(), count=c, lbl_pl=lbl_plural))
             else:
                 self.marked_rows.append(row)
                 c = len(self.marked_rows)
                 if c == 1: 
-                    ui.message(_("Row Marked. Total: 1 row"))
+                    ui.message(_("{lbl} Marked. Total: 1 {lbl}").format(lbl=lbl_single.capitalize()))
                 else: 
-                    ui.message(_("Row Marked. Total: {count} rows").format(count=c))
+                    ui.message(_("{lbl} Marked. Total: {count} {lbl_pl}").format(lbl=lbl_single.capitalize(), count=c, lbl_pl=lbl_plural))
         else: 
-            ui.message(_("Not a row."))
+            ui.message(_("Not a row or list item."))
 
     @script_description(_("Marks/Unmarks current column."))
     def script_markColumn(self, gesture):

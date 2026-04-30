@@ -18,12 +18,20 @@ addon_info = AddonInfo(
 	addon_description=_("""EasyTableCopy is an NVDA add-on designed to solve a common frustration: copying tables from the Web or lists from Windows into documents (like Word, Excel, or Outlook) without losing formatting or layout."""),
 	
 	# version
-	addon_version="2026.6.0",
+	addon_version="2026.6.1",
 	
 	# Brief changelog for this version
 	# Translators: what's new content for the add-on version
 	addon_changelog=_("""
-2026.1 compatibility.
+- 2026.1 compatibility.
+- Plain copy now captures button and interactive element text
+- Buttons like "Manage cookies" or "Do not share my personal information" were silently dropped from plain-text output. get_cell_text() now recurses into all child nodes instead of filtering by CONTENT_ROLES.
+- Mark and copy selected items in web lists
+Use Ctrl+Alt+Space on any list item to mark/unmark it. Then open the list menu (Alt+NVDA+T) — a "Copy Marked (N items)" option appears when items are selected. Copies as <ul><li> HTML + plain text. Clears selection after copy.
+- List menu now shows "Clear Selections" when items are marked
+Mirrors the existing table behavior. Accessible via menu item 9.
+- Mark feedback says "item" instead of "row" in list context
+script_markRow detects LISTITEM role and announces "Item Marked / Item Unmarked" accordingly. Table rows still say "Row".
 """),
 	
 	# Author(s)
