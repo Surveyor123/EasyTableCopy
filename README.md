@@ -5,8 +5,8 @@
 ## 1. Key Features
 
 * **Dual Copy Engine:** Choose between "Standard" mode for best visual fidelity or "Reconstructed" mode for guaranteed structure integrity.
-* **Web List Support:** Copy lists from web pages with two options — preserve original formatting (fonts, colors, links) or copy as a clean plain list.
-* **Smart Selection:** Easily select non-adjacent rows or specific columns to copy.
+* **Web List Support:** Copy lists from web pages with two options — preserve original formatting (fonts, colors, links) or copy as a clean plain list (including button and interactive element text). Mark individual items to copy a subset.
+* **Smart Selection:** Easily select non-adjacent rows or list items, or specific columns, to copy in a batch.
 * **Desktop & Explorer Support:** Instantly convert File Explorer lists or application views into copyable tables. Copy specific columns or combinations of columns.
 * **TreeView Hierarchical Copy:** Copy nested tree structures (like the Input Gestures dialog) with proper indentation and expansion states.
 * **Cell-Level Copying:** Quickly copy individual cell content without the surrounding table structure.
@@ -41,19 +41,23 @@ Uses the browser's native copy function.
 *Pros:* Preserves exact fonts, colors, links, and all other original styling.
 *Cons:* Relies on the browser.
 * **Copy List (Plain):**
-The add-on reads the list items and builds a clean `<ul><li>` structure.
+The add-on reads the list items and builds a clean `<ul><li>` structure. Button text and interactive element labels (e.g. "Manage cookies") are now included in plain output.
 *Pros:* Produces a clean, portable list. Each item is on its own line in plain text.
 *Cons:* Original visual styling (fonts, colors) is not preserved.
+* **Copy Marked (N items):** *(appears only when items are marked)*
+Copies only the items you have individually marked. See **Smart Selection** below.
+* **Clear Selections:** *(appears only when items are marked)*
+Removes all current marks without copying.
 
 ### C. Smart Selection (Marking)
 
-You can select specific items to copy in a batch. **Note:** You can mark Rows OR Columns, but not both simultaneously.
+You can select specific items to copy in a batch. This works for both **table rows** and **web list items**. **Note:** You can mark Rows/Items OR Columns, but not both simultaneously.
 
-#### How to Copy Specific Rows:
+#### How to Copy Specific Rows or List Items:
 
-1. Navigate to a row you want to copy.
-2. Press `Control + Alt + Space`. NVDA will confirm: "Row Marked."
-3. Move to another row and repeat.
+1. Navigate to a row or list item you want to copy.
+2. Press `Control + Alt + Space`. NVDA will confirm: "Row Marked" (in tables) or "Item Marked" (in lists).
+3. Move to another row or item and repeat.
 4. Open the menu (`NVDA + Alt + T`) and select **"Copy Marked"**.
 
 #### How to Copy Specific Columns:
@@ -63,7 +67,7 @@ You can select specific items to copy in a batch. **Note:** You can mark Rows OR
 3. Repeat for other columns.
 4. Open the menu and select **"Copy Marked"**.
 
-> **Note:** To clear your selections, press `Control + Alt + Windows + Space` or use the "Clear Selections" option in the menu.
+> **Note:** To clear your selections, press `Control + Alt + Windows + Space` or use the "Clear Selections" option in the menu (also available in the list menu when items are marked).
 
 ### D. Additional Web Features
 
@@ -137,7 +141,7 @@ Use the `Copy Current Cell` command anywhere to quickly copy just the content of
 | Shortcut | Function | Context |
 | --- | --- | --- |
 | `NVDA + Alt + T` | Open Table/List Menu (Web) / Copy List or Tree (Desktop) | Everywhere |
-| `Ctrl + Alt + Space` | Mark/Unmark Row | Web Only |
+| `Ctrl + Alt + Space` | Mark/Unmark Row or List Item | Web Only |
 | `Ctrl + Alt + Shift + Space` | Mark/Unmark Column | Web Only |
 | `Ctrl + Alt + Win + Space` | Clear All Selections | Web Only |
 

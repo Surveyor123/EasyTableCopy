@@ -7,8 +7,8 @@
 ## 1. Temel Özellikler
 
 * **Çift Kopyalama Motoru:** Görsel kalite için "Standart" mod, yapısal garanti için "Yeniden Oluşturma" modu.
-* **Web Listesi Desteği:** Web sayfalarındaki listeleri iki seçenekle kopyalayın — orijinal biçimlendirmeyi (yazı tipleri, renkler, bağlantılar) koruyarak veya temiz bir düz liste olarak.
-* **Akıllı Seçim:** Bitişik olmayan satırları veya sadece belirli sütunları kolayca seçip kopyalayın.
+* **Web Listesi Desteği:** Web sayfalarındaki listeleri iki seçenekle kopyalayın — orijinal biçimlendirmeyi (yazı tipleri, renkler, bağlantılar) koruyarak veya temiz bir düz liste olarak (buton ve etkileşimli öğe metinleri dahil). Belirli öğeleri işaretleyerek yalnızca seçilenleri kopyalayın.
+* **Akıllı Seçim:** Bitişik olmayan satırları, liste öğelerini veya sadece belirli sütunları kolayca seçip kopyalayın.
 * **Masaüstü ve Gezgin Desteği:** Dosya Gezgini veya uygulama listelerini anında düzenli bir tabloya dönüştürerek kopyalayın. Belirli sütunları veya sütun kombinasyonlarını seçip kopyalayın.
 * **Ağaç Görünümü (TreeView) Desteği:** Klasör ağaçları veya ayarlar (Girdi Hareketleri gibi) hiyerarşik yapılarını seviyeleri korunmuş olarak kopyalayın.
 * **Hücre Düzeyinde Kopyalama:** Tek bir hücrenin içeriğini tablo yapısı olmadan hızlıca kopyalayın.
@@ -45,19 +45,23 @@ Tarayıcının kendi kopyalama yöntemini kullanır.
 *Avantajı:* Yazı tiplerini, renkleri, bağlantıları ve tüm orijinal biçimlendirmeyi korur.
 *Dezavantajı:* Tarayıcıya bağımlıdır.
 * **Listeyi Kopyala (Düz):**
-Eklenti liste öğelerini okur ve temiz bir `<ul><li>` yapısı oluşturur.
+Eklenti liste öğelerini okur ve temiz bir `<ul><li>` yapısı oluşturur. Buton metinleri ve etkileşimli öğe etiketleri (ör. "Manage cookies") artık düz metin çıktısına dahil edilmektedir.
 *Avantajı:* Taşınabilir, temiz bir liste üretir. Düz metin olarak her öğe ayrı satırda gelir.
 *Dezavantajı:* Orijinal görsel biçimlendirme (yazı tipleri, renkler) korunmaz.
+* **İşaretlileri Kopyala (N öğe):** *(yalnızca işaretli öğe varken görünür)*
+Tek tek işaretlediğiniz öğeleri kopyalar. Bkz. **Akıllı Seçim** bölümü.
+* **Seçimleri Temizle:** *(yalnızca işaretli öğe varken görünür)*
+Kopyalama yapmadan tüm işaretleri kaldırır.
 
 ### C. Akıllı Seçim (İşaretleme)
 
-Tablonun tamamını değil, sadece istediğiniz kısımları alabilirsiniz. **Not:** Aynı anda hem satır hem sütun seçilemez.
+Tablonun tamamını değil, sadece istediğiniz kısımları alabilirsiniz. Bu özellik hem **tablo satırları** hem de **web listesi öğeleri** için çalışır. **Not:** Aynı anda hem satır/öğe hem sütun seçilemez.
 
-#### Belirli Satırları Kopyalama:
+#### Belirli Satır veya Liste Öğelerini Kopyalama:
 
-1. İstediğiniz satıra gelin.
-2. `Kontrol + Alt + Boşluk` tuşuna basın. NVDA "Satır İşaretlendi" diyecektir.
-3. Başka bir satıra gidin ve tekrarlayın.
+1. İstediğiniz satıra veya liste öğesine gelin.
+2. `Kontrol + Alt + Boşluk` tuşuna basın. Tablolarda "Satır İşaretlendi", listelerde "Öğe İşaretlendi" diyecektir.
+3. Başka bir satır veya öğeye gidin ve tekrarlayın.
 4. Menüyü açın (`NVDA + Alt + T`) ve **"İşaretlileri Kopyala"** seçeneğini seçin.
 
 #### Belirli Sütunları Kopyalama:
@@ -67,7 +71,7 @@ Tablonun tamamını değil, sadece istediğiniz kısımları alabilirsiniz. **No
 3. Diğer sütunlar için tekrarlayın.
 4. Menüyü açın ve **"İşaretlileri Kopyala"** seçeneğini seçin.
 
-> **Not:** Seçimleri temizlemek için `Kontrol + Alt + Windows + Boşluk` tuşuna basabilir veya menüden "Seçimleri Temizle" seçeneğini kullanabilirsiniz.
+> **Not:** Seçimleri temizlemek için `Kontrol + Alt + Windows + Boşluk` tuşuna basabilir veya menüden "Seçimleri Temizle" seçeneğini kullanabilirsiniz (liste menüsünde de işaretli öğe varken görünür).
 
 ### D. Ek Web Özellikleri
 
@@ -142,7 +146,7 @@ Eklenti, büyük tablolarda performans sorunu yaşamamak için akıllı örnekle
 | Kısayol | İşlev | Bağlam |
 | --- | --- | --- |
 | `NVDA + Alt + T` | Tablo/Liste Menüsünü Aç (Web) / Liste veya Ağacı Kopyala (Masaüstü) | Her Yerde |
-| `Ctrl + Alt + Boşluk` | Satırı İşaretle/Kaldır | Sadece Web |
+| `Ctrl + Alt + Boşluk` | Satır veya Liste Öğesini İşaretle/Kaldır | Sadece Web |
 | `Ctrl + Alt + Shift + Boşluk` | Sütunu İşaretle/Kaldır | Sadece Web |
 | `Ctrl + Alt + Win + Boşluk` | Seçimleri Temizle | Sadece Web |
 
