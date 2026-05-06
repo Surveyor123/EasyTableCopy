@@ -18,21 +18,20 @@ addon_info = AddonInfo(
 	addon_description=_("""EasyTableCopy is an NVDA add-on designed to solve a common frustration: copying tables from the Web or lists from Windows into documents (like Word, Excel, or Outlook) without losing formatting or layout."""),
 	
 	# version
-	addon_version="2026.6.2",
+	addon_version="2026.6.5",
 	
 	# Brief changelog for this version
 	# Translators: what's new content for the add-on version
 	addon_changelog=_("""
-- 2026.1 compatibility.
-- Plain copy now captures button and interactive element text
-- Buttons like "Manage cookies" or "Do not share my personal information" were silently dropped from plain-text output. get_cell_text() now recurses into all child nodes instead of filtering by CONTENT_ROLES.
-- Mark and copy selected items in web lists
-Use Ctrl+Alt+Space on any list item to mark/unmark it. Then open the list menu (Alt+NVDA+T) — a "Copy Marked (N items)" option appears when items are selected. Copies as <ul><li> HTML + plain text. Clears selection after copy.
-- List menu now shows "Clear Selections" when items are marked
-Mirrors the existing table behavior. Accessible via menu item 9.
-- Mark feedback says "item" instead of "row" in list context
-script_markRow detects LISTITEM role and announces "Item Marked / Item Unmarked" accordingly. Table rows still say "Row".
-- Update English and Turkish documentation to mention the new marking and copying web list items.
+- `copy_web_list_formatted()`: Copies web lists (`<ul>`, `<nav>`, `<select>`) as an HTML table with reliable object-tree traversal. Solves the issue where native Ctrl+C fails in Chrome for navigation lists.
+- Secondary search for list objects in `script_tableMenu` using `focus` object, enabling detection of open `<select>` dropdowns where the caret-based `NVDAObjectAtStart` does not reach.
+- **`perform_marked_copy_manual`**: Now uses `self.marked_rows` directly instead of re-collecting all rows and filtering by identity. Fixes missing rows on dynamic pages (e.g., Tureng) where object identity differs between marking and copying.
+- **`copy_web_list_plain`**: Replaced recursive `collect()` with direct child iteration to avoid recursion limit errors on very large lists (1200+ items). Added IAccessible `accChild` fallback for display:none lists (IA2_STATE_OPAQUE).
+- **`on_menu_select` (item_id == 1)**: For `LIST`-role objects, now calls `copy_web_list_formatted` instead of `perform_native_copy`. This ensures formatting and reliability for web navigation lists.
+- **`script_tableMenu` (web context)**: Now also searches `focus` object for `LIST` role when caret-based search fails, improving dropdown list detection.
+- Marked rows copy now correctly copies all user-selected rows on dynamically updated tables (object identity mismatch resolved).
+- Potential recursion crash when copying extremely long web lists (e.g., 1233 items) – fixed by eliminating recursion in `copy_web_list_plain`.
+- Web lists with `display:none` (e.g., hidden `<select>` options) now copy correctly via IAccessible fallback.
 """),
 	
 	# Author(s)

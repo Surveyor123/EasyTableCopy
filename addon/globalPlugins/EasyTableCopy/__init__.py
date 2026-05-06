@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# EasyTableCopy v2026.6.1
+# EasyTableCopy v2026.6.5
 # Author: Çağrı Doğan
 
 import globalPluginHandler
@@ -452,21 +452,12 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
         target_col_indices = self.marked_col_indices
         
         if self.marked_rows:
-            if len(self.marked_rows) > 0:
-                ti = self.get_context_tree_interceptor()
-                try:
-                    obj = ti.makeTextInfo(textInfos.POSITION_CARET).NVDAObjectAtStart
-                    table = self.find_object_by_role(obj, self.TABLE_ROLES)
-                    if not table and self.marked_rows: 
-                        table = self.find_object_by_role(self.marked_rows[0], self.TABLE_ROLES)
-                    if table:
-                        all_rows = self.collect_rows_fast(table)
-                        target_rows = [r for r in all_rows if r in self.marked_rows]
-                    else: 
-                        target_rows = self.marked_rows
-                except Exception as e:
-                    log.debugWarning(f"EasyTableCopy.perform_marked_copy_manual (rows): {e}")
-                    target_rows = self.marked_rows
+            # Use marked_rows directly as the authoritative list of rows to copy.
+            # Previously this code re-collected all rows from the table and filtered
+            # by identity (r in self.marked_rows), which caused mismatches on dynamic
+            # pages (e.g. Tureng) where re-collection may return different object
+            # instances or a different ordering, resulting in fewer rows than expected.
+            target_rows = self.marked_rows
         
         elif self.marked_col_indices:
             ti = self.get_context_tree_interceptor()
@@ -1061,8 +1052,14 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
         if item_id == 1:
             target = self.find_object_by_role(current_obj, self.TABLE_ROLES)
             if target:
-                label = _("List") if target.role == controlTypes.Role.LIST else _("Table")
-                self.perform_native_copy(target, label, original_hwnd)
+                if target.role == controlTypes.Role.LIST:
+                    # Web navigation lists: native Ctrl+C is unreliable because
+                    # Chrome does not reliably translate the NVDA virtual-buffer
+                    # selection into a clipboard write for <ul>/<nav> structures.
+                    # Use the manual object-tree approach with HTML table output.
+                    self.copy_web_list_formatted(target, original_hwnd)
+                else:
+                    self.perform_native_copy(target, _("Table"), original_hwnd)
             else: 
                 ui.message(_("Target not found."))
         elif item_id == 2:
@@ -1105,16 +1102,103 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
     _WEB_TABLE_ROLE_NAMES = ["TABLE", "GRID", "LISTGRID"]
     WEB_TABLE_ROLES = {getattr(controlTypes.Role, n) for n in _WEB_TABLE_ROLE_NAMES if hasattr(controlTypes.Role, n)}
 
+    def copy_web_list_formatted(self, list_obj, original_hwnd):
+        """Copy web list as an HTML table (one row per list item) + plain text.
+        Uses the same manual NVDA-object approach as copy_web_list_plain so it
+        works reliably even for navigation lists where native Ctrl+C fails."""
+        items = []
+
+        # Strategy 1: iterate direct LISTITEM children
+        try:
+            for child in list_obj.children:
+                if child.role == controlTypes.Role.LISTITEM:
+                    t = (child.name or "").strip()
+                    if not t:
+                        _, t = self.get_cell_text(child)
+                    if t:
+                        items.append(t)
+        except Exception as e:
+            log.debugWarning(f"EasyTableCopy.copy_web_list_formatted (direct-iter): {e}")
+
+        if not items:
+            # Strategy 2: IAccessible accChild fallback (e.g. display:none lists)
+            try:
+                ia_obj = list_obj.IAccessibleObject
+                child_count = ia_obj.accChildCount
+                for i in range(1, child_count + 1):
+                    try:
+                        name = ia_obj.accName(i)
+                        if name and name.strip():
+                            items.append(name.strip())
+                    except Exception:
+                        continue
+            except Exception as e:
+                log.debugWarning(f"EasyTableCopy.copy_web_list_formatted (ia-fallback): {e}")
+
+        if not items:
+            ui.message(_("No items found."))
+            return
+
+        esc = lambda s: s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+        html_parts = ["<table border='1' cellpadding='2' cellspacing='0'>"]
+        for item in items:
+            html_parts.append(f"<tr><td>{esc(item)}</td></tr>")
+        html_parts.append("</table>")
+        html_out = "".join(html_parts)
+        text_out = "\n".join(items)
+
+        winsound.Beep(440, 100)
+        if self.copy_manual_safe(html_out, text_out):
+            self._restore_focus(original_hwnd)
+            winsound.Beep(880, 100)
+            count = len(items)
+            if count == 1:
+                ui.message(_("List copied (1 item)."))
+            else:
+                ui.message(_("List copied ({count} items).").format(count=count))
+        else:
+            ui.message(_("Copy failed."))
+
     def copy_web_list_plain(self, list_obj):
         """Copy list as plain <ul><li> HTML + newline-separated text, no original formatting."""
         items = []
-        def collect(node):
-            if node.role == controlTypes.Role.LISTITEM:
-                _, t = self.get_cell_text(node)
-                if t: items.append(t)
-            elif node.childCount > 0:
-                for child in node.children: collect(child)
-        collect(list_obj)
+
+        # Strategy 1: iterate direct children non-recursively.
+        # A recursive collect() would hit Python's recursion limit on large lists
+        # (e.g. 1233 items). Direct iteration is safe and sufficient because
+        # <select> option nodes are always direct children of the LIST node.
+        try:
+            for child in list_obj.children:
+                if child.role == controlTypes.Role.LISTITEM:
+                    # Prefer name (always populated for <option> elements) over
+                    # get_cell_text which recurses into children and may return
+                    # empty for leaf nodes with no sub-children.
+                    t = (child.name or "").strip()
+                    if not t:
+                        _, t = self.get_cell_text(child)
+                    if t:
+                        items.append(t)
+        except Exception as e:
+            log.debugWarning(f"EasyTableCopy.copy_web_list_plain (direct-iter): {e}")
+
+        if not items:
+            # Strategy 2: IAccessible accChild enumeration.
+            # Used when NVDA child iteration returns nothing (e.g. display:none
+            # lists with IA2_STATE_OPAQUE where children are not wrapped as
+            # NVDAObjects). accName(i) on the raw COM object always works here.
+            try:
+                ia_obj = list_obj.IAccessibleObject
+                child_count = ia_obj.accChildCount
+                for i in range(1, child_count + 1):
+                    try:
+                        name = ia_obj.accName(i)
+                        if name and name.strip():
+                            items.append(name.strip())
+                    except Exception:
+                        continue
+            except Exception as e:
+                log.debugWarning(f"EasyTableCopy.copy_web_list_plain (ia-fallback): {e}")
+
         if not items:
             ui.message(_("No items found."))
             return
@@ -1227,8 +1311,15 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
             if self.find_object_by_role(obj, self.WEB_TABLE_ROLES):
                 wx.CallLater(10, self.show_phantom_menu, obj, hwnd, False)
                 return
-            # Web list → List menu
+            # Web list → List menu (caret-based search)
             list_obj = self.find_object_by_role(obj, {controlTypes.Role.LIST})
+            if list_obj:
+                wx.CallLater(10, self.show_phantom_menu, list_obj, hwnd, True)
+                return
+            # Secondary search via focus object: handles open <select> dropdowns where
+            # the focused LISTITEM lives outside the virtual buffer (display:none list),
+            # so the caret-based NVDAObjectAtStart does not reach it.
+            list_obj = self.find_object_by_role(focus, {controlTypes.Role.LIST})
             if list_obj:
                 wx.CallLater(10, self.show_phantom_menu, list_obj, hwnd, True)
                 return
@@ -1245,15 +1336,22 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
                 target_list = focus
             else:
                 temp = focus
-                for _loop in range(5):
-                    if not temp: 
+                for _loop in range(MAX_PARENT_SEARCH_DEPTH):
+                    if not temp:
                         break
                     if temp.role in self.TABLE_ROLES:
                         target_list = temp
                         break
                     temp = temp.parent
             if target_list:
-                self.perform_list_view_copy_fallback(target_list)
+                # Use copy_web_list_plain for LIST role: these are typically <select>
+                # dropdowns (display:none, IA2_STATE_OPAQUE) whose children are not
+                # reachable via NVDA normal child iteration. The IAccessible accChild
+                # fallback inside copy_web_list_plain handles them correctly.
+                if target_list.role == controlTypes.Role.LIST:
+                    self.copy_web_list_plain(target_list)
+                else:
+                    self.perform_list_view_copy_fallback(target_list)
             else:
                 ui.message(_("Focus is not on a list or table."))
 
