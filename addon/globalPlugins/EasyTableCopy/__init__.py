@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-# EasyTableCopy v2026.6.8
-# Author: Çağrı Doğan
 
 import globalPluginHandler
 import addonHandler
@@ -389,7 +387,10 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
         
         return total_rows, max_cols
 
-    def process_table_fast(self, rows, selected_indices=None) -> Tuple[str, str]:
+    def process_table_fast(self, rows, selected_indices=None, text_separator="\t") -> Tuple[str, str]:
+        """Build (html, plain_text) for the given rows.
+        text_separator is placed between columns in the plain-text output
+        (tab by default; " | " is used by Copy Table (Reconstructed))."""
         grid = {}
         max_col = 0
         total_rows = len(rows)
@@ -453,7 +454,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
             
             row_html += "</tr>"
             html_parts.append(row_html)
-            text_parts.append("\t".join(row_text))
+            text_parts.append(text_separator.join(row_text))
 
         html_parts.append("</table>")
         return "".join(html_parts), "\n".join(text_parts)
@@ -574,8 +575,10 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
     # =========================================================================
     # ENGINE B: FAST PLAIN TEXT COPY - NO FORMATTING
     # =========================================================================
-    def perform_full_table_manual(self, current_obj, original_hwnd):
-        """ULTRA FAST - No formatting, just plain text"""
+    def perform_full_table_manual(self, current_obj, original_hwnd, text_separator="\t"):
+        """ULTRA FAST - No formatting, just plain text.
+        text_separator: placed between columns in the plain-text version
+        (tab by default, " | " for the vertical-bar variant)."""
         table = self.find_object_by_role(current_obj, self.TABLE_ROLES)
         if not table:
             ui.message(_("Table not found."))
@@ -589,7 +592,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
             ui.message(_("Table is empty."))
             return
 
-        html_out, text_out = self.process_table_fast(rows)
+        html_out, text_out = self.process_table_fast(rows, text_separator=text_separator)
         
         if self.copy_manual_safe(html_out, text_out):
             self._restore_focus(original_hwnd)
@@ -1244,6 +1247,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
                 ui.message(_("Target not found."))
         elif item_id == 3:
             self.perform_full_table_manual(current_obj, original_hwnd)
+        elif item_id == 10:
+            self.perform_full_table_manual(current_obj, original_hwnd, text_separator=" | ")
         elif item_id == 4:
             target = self.find_object_by_role(current_obj, self.CELL_ROLES)
             if target:
@@ -1648,13 +1653,13 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
             menu.Append(1, _("Copy Table (Standard)"))
             menu.Append(2, _("Copy Current Row"))
             menu.Append(3, _("Copy Table (Reconstructed)"))
+            menu.Append(10, _("Copy Table (Reconstructed, with Vertical Bars)"))
             menu.Append(4, _("Copy Current Column"))
             if self.marked_rows or self.marked_col_indices:
                 count = len(self.marked_rows) if self.marked_rows else len(self.marked_col_indices)
                 lbl = (_("rows") if count > 1 else _("row")) if self.marked_rows else (_("columns") if count > 1 else _("column"))
                 menu.Append(5, _("Copy Marked ({count} {lbl})").format(count=count, lbl=lbl))
                 menu.Append(6, _("Clear Selections"))
-        menu.Append(wx.ID_CANCEL, _("Cancel"))
         
         def _cmd(evt):
             id = evt.GetId()
@@ -1857,6 +1862,110 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
         self.marked_rows = []
         self.marked_col_indices.clear()
         ui.message(_("Selections cleared."))
+
+    # =========================================================================
+    # FEATURE: STANDALONE COMMANDS FOR EVERY MENU ENTRY (WEB ONLY)
+    # Unassigned by default; users can bind gestures in
+    # NVDA Menu > Preferences > Input gestures > EasyTableCopy.
+    # They reuse on_menu_select so behaviour is identical to the menu.
+    # =========================================================================
+    def _web_command_context(self):
+        """Return (caret_obj, focus_obj, hwnd) in browse mode, else None."""
+        ti = self.get_context_tree_interceptor()
+        if not ti:
+            ui.message(_("This command works only in web browse mode."))
+            return None
+        focus = api.getFocusObject()
+        try:
+            obj = ti.makeTextInfo(textInfos.POSITION_CARET).NVDAObjectAtStart
+        except Exception as e:
+            log.debugWarning(f"EasyTableCopy._web_command_context: {e}")
+            obj = focus
+        return obj, focus, winUser.getForegroundWindow()
+
+    def _call_after_keys_released(self, func, *args, _attempt=0):
+        """Run func once the modifier keys of the user's gesture are released.
+        Commands that synthesize Ctrl+C (standard table/row copy) would
+        otherwise send it while e.g. NVDA/Shift/Alt are still physically held,
+        so the application sees a different key combination and nothing is
+        copied. Gives up waiting after ~2 seconds and runs anyway."""
+        held = bool(getattr(keyboardHandler, "currentModifiers", None))
+        if not held:
+            held = any(
+                winUser.getKeyState(vk) & 0x8000
+                for vk in (winUser.VK_CONTROL, winUser.VK_MENU, winUser.VK_SHIFT, winUser.VK_LWIN, winUser.VK_RWIN)
+            )
+        if held and _attempt < 40:
+            wx.CallLater(50, self._call_after_keys_released, func, *args, _attempt=_attempt + 1)
+            return
+        func(*args)
+
+    def _run_table_command(self, item_id):
+        ctx = self._web_command_context()
+        if not ctx:
+            return
+        obj, _focus, hwnd = ctx
+        if not self.find_object_by_role(obj, self.WEB_TABLE_ROLES):
+            ui.message(_("Not on a table."))
+            return
+        wx.CallLater(10, self._call_after_keys_released, self.on_menu_select, item_id, obj, hwnd)
+
+    def _run_list_command(self, item_id):
+        ctx = self._web_command_context()
+        if not ctx:
+            return
+        obj, focus, hwnd = ctx
+        list_obj = (self.find_object_by_role(obj, {controlTypes.Role.LIST})
+                    or self.find_object_by_role(focus, {controlTypes.Role.LIST}))
+        if not list_obj:
+            ui.message(_("Not on a list."))
+            return
+        wx.CallLater(10, self._call_after_keys_released, self.on_menu_select, item_id, list_obj, hwnd)
+
+    @script_description(_("Copies the whole table (standard copy)."))
+    def script_copyTableStandard(self, gesture):
+        self._run_table_command(1)
+
+    @script_description(_("Copies the current table row."))
+    def script_copyCurrentRow(self, gesture):
+        self._run_table_command(2)
+
+    @script_description(_("Copies the whole table (reconstructed)."))
+    def script_copyTableReconstructed(self, gesture):
+        self._run_table_command(3)
+
+    @script_description(_("Copies the whole table (reconstructed, with vertical bars between columns)."))
+    def script_copyTableReconstructedBars(self, gesture):
+        self._run_table_command(10)
+
+    @script_description(_("Copies the current table column."))
+    def script_copyCurrentColumn(self, gesture):
+        self._run_table_command(4)
+
+    @script_description(_("Copies the marked table rows or columns."))
+    def script_copyMarkedTable(self, gesture):
+        ctx = self._web_command_context()
+        if not ctx:
+            return
+        if not self.marked_rows and not self.marked_col_indices:
+            ui.message(_("No rows marked."))
+            return
+        obj, _focus, hwnd = ctx
+        wx.CallLater(10, self._call_after_keys_released, self.on_menu_select, 5, obj, hwnd)
+
+    @script_description(_("Copies the current list (with formatting)."))
+    def script_copyListFormatted(self, gesture):
+        self._run_list_command(1)
+
+    @script_description(_("Copies the current list (plain)."))
+    def script_copyListPlain(self, gesture):
+        self._run_list_command(7)
+
+    @script_description(_("Copies the marked list items."))
+    def script_copyMarkedListItems(self, gesture):
+        if not self._web_command_context():
+            return
+        wx.CallLater(10, self._call_after_keys_released, self.copy_marked_list_items)
 
     def terminate(self):
         """Clean up on addon unload"""

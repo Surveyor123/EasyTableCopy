@@ -1,545 +1,641 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-06-02 10:48+0300\n"
+"Report-Msgid-Bugs-To: 'nvda-translations@groups.io'\n"
+"POT-Creation-Date: 2026-10-16 08:39+0300\n"
 "PO-Revision-Date: 2026-06-02 10:50+0300\n"
 "Last-Translator: Volodymyr Pyrih <vp88.mobile@gmail.com>\n"
 "Language-Team: \n"
-"Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: uk\n"
 "X-Generator: Poedit 3.9\n"
 "X-Poedit-Basepath: ../../../..\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:45
+#: addon\globalPlugins\EasyTableCopy\__init__.py:51
 msgid "EasyTableCopy"
 msgstr "Легке копіювання таблиці"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:319
-#: addon/globalPlugins/EasyTableCopy/__init__.py:700
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1170
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1227
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1450
+#: addon\globalPlugins\EasyTableCopy\__init__.py:172
+#: addon\globalPlugins\EasyTableCopy\__init__.py:175
+msgid "marked"
+msgstr ""
+
+#: addon\globalPlugins\EasyTableCopy\__init__.py:478
+#: addon\globalPlugins\EasyTableCopy\__init__.py:863
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1335
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1392
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1627
 msgid "List copied (1 item)."
 msgstr "Список скопійовано (1 елемент)."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:321
-#: addon/globalPlugins/EasyTableCopy/__init__.py:702
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1172
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1229
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1452
-#, python-brace-format
+#: addon\globalPlugins\EasyTableCopy\__init__.py:480
+#: addon\globalPlugins\EasyTableCopy\__init__.py:865
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1337
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1394
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1629
 msgid "List copied ({count} items)."
 msgstr "Список скопійовано ({count} елементів)."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:323
+#: addon\globalPlugins\EasyTableCopy\__init__.py:482
 msgid "List copied."
 msgstr "Список скопійовано."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:326
+#: addon\globalPlugins\EasyTableCopy\__init__.py:485
 msgid " (1 row)"
 msgstr " (1 рядок)"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:328
-#, python-brace-format
+#: addon\globalPlugins\EasyTableCopy\__init__.py:487
 msgid " ({count} rows)"
 msgstr " ({count} рядків)"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:347
+#: addon\globalPlugins\EasyTableCopy\__init__.py:506
 msgid " (1 cell)"
 msgstr " (1 комірка)"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:349
-#, python-brace-format
+#: addon\globalPlugins\EasyTableCopy\__init__.py:508
 msgid " ({count} cells)"
 msgstr " ({count} комірок)"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:360
+#: addon\globalPlugins\EasyTableCopy\__init__.py:519
 msgid "Selection failed."
 msgstr "Не вдалося вибрати."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:370
-#: addon/globalPlugins/EasyTableCopy/__init__.py:409
-#, python-brace-format
+#: addon\globalPlugins\EasyTableCopy\__init__.py:529
+#: addon\globalPlugins\EasyTableCopy\__init__.py:568
 msgid "{label} copied{count}."
 msgstr "{label} скопійовано{count}."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:412
+#: addon\globalPlugins\EasyTableCopy\__init__.py:571
 msgid "Error."
 msgstr "Помилка."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:423
+#: addon\globalPlugins\EasyTableCopy\__init__.py:584
 msgid "Table not found."
 msgstr "Таблицю не знайдено."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:431
-#: addon/globalPlugins/EasyTableCopy/__init__.py:869
-#: addon/globalPlugins/EasyTableCopy/__init__.py:971
+#: addon\globalPlugins\EasyTableCopy\__init__.py:592
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1032
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1134
 msgid "Table is empty."
 msgstr "Таблиця порожня."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:442
+#: addon\globalPlugins\EasyTableCopy\__init__.py:603
 msgid "Table copied (1 row)."
 msgstr "Таблицю скопійовано (1 рядок)."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:444
-#, python-brace-format
+#: addon\globalPlugins\EasyTableCopy\__init__.py:605
 msgid "Table copied ({count} rows)."
 msgstr "Таблицю скопійовано ({count} рядків)."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:447
-#: addon/globalPlugins/EasyTableCopy/__init__.py:504
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1174
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1231
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1259
+#: addon\globalPlugins\EasyTableCopy\__init__.py:608
+#: addon\globalPlugins\EasyTableCopy\__init__.py:665
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1339
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1396
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1426
 msgid "Copy failed."
 msgstr "Помилка копіювання."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:475
+#: addon\globalPlugins\EasyTableCopy\__init__.py:636
 msgid "Error: No items to copy."
 msgstr "Помилка: немає елементів для копіювання."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:490
+#: addon\globalPlugins\EasyTableCopy\__init__.py:651
 msgid "Copied 1 row."
 msgstr "Скопійовано 1 рядок."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:492
-#, python-brace-format
+#: addon\globalPlugins\EasyTableCopy\__init__.py:653
 msgid "Copied {count} rows."
 msgstr "Скопійовано {count} рядків."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:496
+#: addon\globalPlugins\EasyTableCopy\__init__.py:657
 msgid "Copied 1 column."
 msgstr "Скопійовано 1 стовпець."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:498
-#, python-brace-format
+#: addon\globalPlugins\EasyTableCopy\__init__.py:659
 msgid "Copied {count} columns."
 msgstr "Скопійовано {count} стовпців."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:529
-#: addon/globalPlugins/EasyTableCopy/__init__.py:819
-#: addon/globalPlugins/EasyTableCopy/__init__.py:945
+#: addon\globalPlugins\EasyTableCopy\__init__.py:691
+#: addon\globalPlugins\EasyTableCopy\__init__.py:982
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1108
 msgid "Folder is empty."
 msgstr "Папка порожня."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:551
+#: addon\globalPlugins\EasyTableCopy\__init__.py:713
 msgid "Folder copied (1 item)."
 msgstr "Папку скопійовано (1 елемент)."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:553
-#, python-brace-format
+#: addon\globalPlugins\EasyTableCopy\__init__.py:715
 msgid "Folder copied ({count} items)."
 msgstr "Папку скопійовано ({count} елементів)."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:648
+#: addon\globalPlugins\EasyTableCopy\__init__.py:811
 msgid "No tree items found. Try expanding the branches you wish to copy."
 msgstr ""
 "Елементів дерева не знайдено. Спробуйте розгорнути гілки, які ви хочете "
 "скопіювати."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:654
-#, python-brace-format
+#: addon\globalPlugins\EasyTableCopy\__init__.py:817
 msgid "Full tree structure copied ({count} items)."
 msgstr "Скопійовано повну структуру дерева ({count} елементів)."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:663
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1153
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1217
+#: addon\globalPlugins\EasyTableCopy\__init__.py:826
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1318
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1382
 msgid "No items found."
 msgstr "Елементів не знайдено."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:694
+#: addon\globalPlugins\EasyTableCopy\__init__.py:857
 msgid "No accessible text found."
 msgstr "Не знайдено доступного тексту."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:704
+#: addon\globalPlugins\EasyTableCopy\__init__.py:867
 msgid "Clipboard error. Try again."
 msgstr "Помилка буфера обміну. Спробуйте знову."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:707
+#: addon\globalPlugins\EasyTableCopy\__init__.py:870
 msgid "Error processing list."
 msgstr "Помилка обробки списку."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:742
+#. =========================================================================
+#. FEATURE: COLUMN COPYING (DESKTOP & EXPLORER ONLY)
+#. =========================================================================
+#: addon\globalPlugins\EasyTableCopy\__init__.py:905
 msgid "Copies first column from current table (desktop only)."
 msgstr "Копіює перший стовпець з поточної таблиці (лише для ПК)."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:746
+#: addon\globalPlugins\EasyTableCopy\__init__.py:909
 msgid "Column 1"
 msgstr "Стовпець 1"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:748
+#: addon\globalPlugins\EasyTableCopy\__init__.py:911
 msgid "Copies second column from current table (desktop only)."
 msgstr "Копіює другий стовпець з поточної таблиці (лише для ПК)."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:752
+#: addon\globalPlugins\EasyTableCopy\__init__.py:915
 msgid "Column 2"
 msgstr "Стовпець 2"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:754
+#: addon\globalPlugins\EasyTableCopy\__init__.py:917
 msgid "Copies third column from current table (desktop only)."
 msgstr "Копіює третій стовпець з поточної таблиці (лише для ПК)."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:758
+#: addon\globalPlugins\EasyTableCopy\__init__.py:921
 msgid "Column 3"
 msgstr "Стовпець 3"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:760
+#: addon\globalPlugins\EasyTableCopy\__init__.py:923
 msgid "Copies first and second columns from current table (desktop only)."
 msgstr "Копіює перший і другий стовпці з поточної таблиці (лише для ПК)."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:764
+#: addon\globalPlugins\EasyTableCopy\__init__.py:927
 msgid "Columns 1-2"
 msgstr "Стовпці 1–2"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:766
+#: addon\globalPlugins\EasyTableCopy\__init__.py:929
 msgid "Copies first and third columns from current table (desktop only)."
 msgstr "Копіює перший і третій стовпці з поточної таблиці (лише для ПК)."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:770
-#: addon/globalPlugins/EasyTableCopy/__init__.py:776
+#: addon\globalPlugins\EasyTableCopy\__init__.py:933
+#: addon\globalPlugins\EasyTableCopy\__init__.py:939
 msgid "Columns 1-3"
 msgstr "Стовпці 1–3"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:772
+#: addon\globalPlugins\EasyTableCopy\__init__.py:935
 msgid "Copies first three columns from current table (desktop only)."
 msgstr "Копіює перші три стовпці з поточної таблиці (лише для ПК)."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:782
-#: addon/globalPlugins/EasyTableCopy/__init__.py:922
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1535
+#: addon\globalPlugins\EasyTableCopy\__init__.py:945
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1085
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1712
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1909
 msgid "Not on a table."
 msgstr "Не в таблиці."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:855
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1447
-#, python-brace-format
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1018
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1624
 msgid "{label} ({count} items) copied."
 msgstr "{label} ({count} елементів) скопійовано."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:903
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1066
 msgid "No data found."
 msgstr "Дані не знайдено."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:911
-#, python-brace-format
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1074
 msgid "{label} ({count} rows) copied."
 msgstr "{label} ({count} рядків) скопійовано."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:916
+#. =========================================================================
+#. FEATURE: TABLE STATISTICS (WORKS EVERYWHERE)
+#. =========================================================================
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1079
 msgid "Announces table dimensions."
 msgstr "Оголошує розміри таблиці."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:955
-#, python-brace-format
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1118
 msgid "Folder has {count} items."
 msgstr "Папка містить {count} елементів."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:957
-#, python-brace-format
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1120
 msgid "Folder has {count} items and {col_count} columns."
 msgstr "Папка містить {count} елементів і {col_count} стовпців."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:976
-#, python-brace-format
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1139
 msgid "Table has {rows} rows."
 msgstr "Таблиця містить {rows} рядків."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:978
-#, python-brace-format
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1141
 msgid "Table has {rows} rows and {cols} columns."
 msgstr "Таблиця містить {rows} рядків і {cols} стовпців."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:983
+#. =========================================================================
+#. FEATURE: COPY CURRENT CELL (WORKS EVERYWHERE)
+#. =========================================================================
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1146
 msgid "Copies current cell content quickly."
 msgstr "Швидко копіює поточний вміст комірки."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1000
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1163
 msgid "Not in a cell."
 msgstr "Не в комірці."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1007
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1170
 msgid "Cell is empty."
 msgstr "Комірка порожня."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1012
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1175
 msgid "Cell copied."
 msgstr "Комірку скопійовано."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1017
+#. =========================================================================
+#. FEATURE: COPY MARKED ROWS AS TEXT (WEB ONLY)
+#. =========================================================================
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1180
 msgid "Copies marked rows as plain text without table structure (web only)."
 msgstr ""
 "Копіює позначені рядки як звичайний текст без структури таблиці (лише у веб-"
 "версії)."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1024
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1187
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1951
 msgid "No rows marked."
 msgstr "Не вибрано жодного рядка."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1045
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1208
 msgid "No text found."
 msgstr "Текст не знайдено."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1058
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1221
 msgid "Marked row copied as text."
 msgstr "Позначений рядок скопійовано як текст."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1060
-#, python-brace-format
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1223
 msgid "Marked rows copied as text ({count} rows)."
 msgstr "Позначені рядки скопійовано як текст ({count} рядків)."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1076
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1239
 msgid "Table"
 msgstr "Таблиця"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1078
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1084
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1241
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1247
 msgid "Target not found."
 msgstr "Ціль не знайдено."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1082
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1245
 msgid "Row"
 msgstr "Рядок"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1099
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1110
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1656
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1264
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1275
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1860
 msgid "No selection to clear."
 msgstr "Немає вибраного для очищення."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1103
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1113
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1660
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1268
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1278
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1864
 msgid "Selections cleared."
 msgstr "Вибір очищено."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1236
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1403
 msgid "No items marked."
 msgstr "Не вибрано жодного елемента."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1245
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1412
 msgid "No text found in marked items."
 msgstr "У вибраних елементах текст не знайдено."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1255
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1422
 msgid "Marked item copied (1 item)."
 msgstr "Вибраний елемент скопійовано (1 елемент)."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1257
-#, python-brace-format
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1424
 msgid "Marked items copied ({count} items)."
 msgstr "Вибрані елементи скопійовано ({count} елементів)."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1401
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1578
 msgid "Selected columns do not exist."
 msgstr "Вибраних стовпців не існує."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1468
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1645
 msgid "Copy List (With Formatting)"
 msgstr "Копіювати список (з форматуванням)"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1469
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1646
 msgid "Copy List (Plain)"
 msgstr "Копіювати список (звичайний)"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1472
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1593
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1649
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1793
 msgid "item"
 msgstr "елемент"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1472
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1594
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1649
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1794
 msgid "items"
 msgstr "елементи"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1473
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1483
-#, python-brace-format
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1650
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1661
 msgid "Copy Marked ({count} {lbl})"
 msgstr "Вибране скопійовано ({count} {lbl})"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1474
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1484
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1651
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1662
 msgid "Clear Selections"
 msgstr "Очистити вибране"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1476
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1653
 msgid "Copy Table (Standard)"
 msgstr "Копіювати таблицю (стандартно)"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1477
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1654
 msgid "Copy Current Row"
 msgstr "Копіювати поточний рядок"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1478
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1655
 msgid "Copy Table (Reconstructed)"
 msgstr "Копіювати таблицю (відновлену)"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1479
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1656
+#, fuzzy
+msgid "Copy Table (Reconstructed, with Vertical Bars)"
+msgstr "Копіювати таблицю (відновлену)"
+
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1657
 msgid "Copy Current Column"
 msgstr "Копіювати поточний стовпець"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1482
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1594
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1660
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1794
 msgid "rows"
 msgstr "рядки"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1482
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1593
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1660
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1793
 msgid "row"
 msgstr "рядок"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1482
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1660
 msgid "columns"
 msgstr "стовпці"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1482
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1660
 msgid "column"
 msgstr "стовпець"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1485
-msgid "Cancel"
-msgstr "Скасувати"
-
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1501
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1678
 msgid "Opens Copy Menu (Web) or Copies List (Desktop)."
 msgstr "Відкриває меню «Копіювати» (у вебі) або копіює список (ПК)."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1508
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1685
 msgid "Use standard copy (Ctrl+C) in this application."
 msgstr "У цій програмі використовуйте стандартну функцію копіювання (Ctrl+C)."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1575
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1755
 msgid "Focus is not on a list or table."
 msgstr "Фокус не у списку чи таблиці."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1577
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1757
 msgid "Marks/Unmarks current row or list item."
 msgstr "Вибирає/знімає вибір поточного рядка або елемента списку."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1582
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1760
 msgid "Cannot mark rows while columns are selected."
 msgstr "Неможливо вибрати рядки, коли вибрано стовпці."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1599
-#, python-brace-format
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1774
+msgid "Use native selection (Ctrl+Click / Shift+Arrow) in Explorer."
+msgstr ""
+
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1778
+msgid "Marking is not supported in this list yet."
+msgstr ""
+
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1783
+msgid "Marking is not supported in tree views."
+msgstr ""
+
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1799
 msgid "{lbl} Unmarked."
 msgstr "{lbl} Не вибрано."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1601
-#, python-brace-format
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1801
 msgid "{lbl} Unmarked. Total: 1 {lbl}"
 msgstr "{lbl} Невибрано. Всього: 1 {lbl}"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1603
-#, python-brace-format
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1803
 msgid "{lbl} Unmarked. Total: {count} {lbl_pl}"
 msgstr "{lbl} Невибрано. Всього: {count} {lbl_pl}"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1608
-#, python-brace-format
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1808
 msgid "{lbl} Marked. Total: 1 {lbl}"
 msgstr "{lbl} Вибрано. Разом: 1 {lbl}"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1610
-#, python-brace-format
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1810
 msgid "{lbl} Marked. Total: {count} {lbl_pl}"
 msgstr "{lbl} Вибрано. Усього: {count} {lbl_pl}"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1612
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1812
 msgid "Not a row or list item."
 msgstr "Не рядок або елемент списку."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1614
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1814
 msgid "Marks/Unmarks current column."
 msgstr "Вибирає/скасовує вибір поточного стовпця."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1619
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1819
 msgid "Cannot mark columns while rows are selected."
 msgstr "Неможливо вибрати стовпці, коли вибрано рядки."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1634
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1840
 msgid "Column Unmarked."
 msgstr "Стовпець невибрано."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1636
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1842
 msgid "Column Unmarked. Total: 1 column"
 msgstr "Стовпець невибрано. Усього: 1 стовпець"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1638
-#, python-brace-format
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1844
 msgid "Column Unmarked. Total: {count} columns"
 msgstr "Стовпець невибрано. Всього: {count} стовпців"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1643
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1849
 msgid "Column Marked. Total: 1 column"
 msgstr "Стовпець вибрано. Всього: 1 стовпець"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1645
-#, python-brace-format
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1851
 msgid "Column Marked. Total: {count} columns"
 msgstr "Стовпець вибрано. Всього: {count} стовпців"
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1647
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1853
 msgid "Index error."
 msgstr "Помилка індексу."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1649
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1855
 msgid "Not a cell."
 msgstr "Не комірка."
 
-#: addon/globalPlugins/EasyTableCopy/__init__.py:1651
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1857
 msgid "Clears selections."
 msgstr "Очищає вибір."
 
-#: buildVars.py:14
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1876
+msgid "This command works only in web browse mode."
+msgstr ""
+
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1921
+#, fuzzy
+msgid "Not on a list."
+msgstr "Не в таблиці."
+
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1925
+#, fuzzy
+msgid "Copies the whole table (standard copy)."
+msgstr "Копіює третій стовпець з поточної таблиці (лише для ПК)."
+
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1929
+#, fuzzy
+msgid "Copies the current table row."
+msgstr "Копіює третій стовпець з поточної таблиці (лише для ПК)."
+
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1933
+#, fuzzy
+msgid "Copies the whole table (reconstructed)."
+msgstr "Копіювати таблицю (відновлену)"
+
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1937
+msgid ""
+"Copies the whole table (reconstructed, with vertical bars between columns)."
+msgstr ""
+
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1941
+#, fuzzy
+msgid "Copies the current table column."
+msgstr "Скопійовано {count} стовпців."
+
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1945
+msgid "Copies the marked table rows or columns."
+msgstr ""
+
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1956
+#, fuzzy
+msgid "Copies the current list (with formatting)."
+msgstr "Копіювати список (з форматуванням)"
+
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1960
+msgid "Copies the current list (plain)."
+msgstr ""
+
+#: addon\globalPlugins\EasyTableCopy\__init__.py:1964
+#, fuzzy
+msgid "Copies the marked list items."
+msgstr "Не рядок або елемент списку."
+
+#. Add-on summary/title, usually the user visible name of the add-on
+#. Translators: Summary/title for this add-on
+#: buildVars.py:15
 msgid "Easy Table Copy"
 msgstr "Легке копіювання таблиці"
 
-#: buildVars.py:18
+#. Add-on description
+#. Translators: Long description to be shown for this add-on
+#: buildVars.py:19
 msgid ""
-"EasyTableCopy is an NVDA add-on designed to solve a common frustration: "
-"copying tables from the Web or lists from Windows into documents (like Word, "
-"Excel, or Outlook) without losing formatting or layout."
+"EasyTableCopy lets you copy tables, lists, and grids from the Web, desktop "
+"apps, and Windows Explorer into Word, Excel, or Outlook — with formatting "
+"intact. Mark specific rows or columns to copy, grab a single cell, flatten a "
+"tree view, or copy an entire folder listing, all with a keystroke."
 msgstr ""
-"EasyTableCopy — це доповнення NVDA, призначене для вирішення поширених "
-"проблем: копіювання таблиць з Інтернету або списків із Windows у документи "
-"(наприклад, Word, Excel або Outlook) без втрати форматування чи макета."
 
-#: buildVars.py:25
+#. Brief changelog for this version
+#. Translators: what's new content for the add-on version
+#: buildVars.py:26
 msgid ""
 "\n"
-"* **Improved Large List Handling:** Copying large list controls "
-"(specifically `SysListView32`) now reliably extracts all items while "
-"preserving table formatting. This update bypasses previous limitations "
-"caused by object virtualization, ensuring items outside the visible screen "
-"are no longer skipped.\n"
-"* **Reliable Column Selection:** Column-specific copying commands have been "
-"updated to work consistently within extensive lists. You can now copy "
-"specific columns from large lists without experiencing silent failures or "
-"missing data.\n"
-"* **64-bit Architecture Stability:** Resolved a memory pointer truncation "
-"issue during Win32 API operations. Background data extraction is now fully "
-"stable and compatible with modern 64-bit NVDA architectures.\n"
-msgstr ""
+"### New\n"
+"* Added \"Copy Table (Reconstructed, with Vertical Bars)\" to the Table "
+"Copy\n"
+"  Menu. It copies the table with \" | \" between columns in the plain-text\n"
+"  version, which keeps column boundaries clear when pasting into text-only\n"
+"  applications. The existing \"Copy Table (Reconstructed)\" option is "
+"unchanged.\n"
+"* Every Table Copy Menu command can now be assigned its own gesture in\n"
+"  NVDA menu > Preferences > Input gestures > EasyTableCopy. No gestures are\n"
+"  assigned by default. These commands work in web browse mode.\n"
 "\n"
-"* **Покращена обробка великих списків:** Копіювання елементів керування "
-"великими списками (зокрема `SysListView32`) тепер надійно витягує всі "
-"елементи, зберігаючи форматування таблиці. Це оновлення обходить попередні "
-"обмеження, спричинені віртуалізацією об’єктів, гарантуючи, що елементи поза "
-"межами видимої частини екрана більше не пропускаються.\n"
-"* **Надійний вибір стовпців:** Команди копіювання окремих стовпців оновлено "
-"для стабільної роботи у великих списках. Тепер ви можете копіювати певні "
-"стовпці з великих списків, не стикаючись із прихованими помилками або "
-"втратою даних.\n"
-"* **Стабільність 64-розрядної архітектури:** Вирішено проблему усічення "
-"покажчика пам'яті під час операцій Win32 API. Фонове витягнення даних тепер "
-"повністю стабільне та сумісне із сучасними 64-розрядними архітектурами "
-"NVDA.\n"
+"### Changes\n"
+"* Removed the \"Cancel\" item from the Table Copy Menu. Press Escape or "
+"switch\n"
+"  to another window to close the menu.\n"
+msgstr ""
+
+#~ msgid "Cancel"
+#~ msgstr "Скасувати"
+
+#~ msgid ""
+#~ "EasyTableCopy is an NVDA add-on designed to solve a common frustration: "
+#~ "copying tables from the Web or lists from Windows into documents (like "
+#~ "Word, Excel, or Outlook) without losing formatting or layout."
+#~ msgstr ""
+#~ "EasyTableCopy — це доповнення NVDA, призначене для вирішення поширених "
+#~ "проблем: копіювання таблиць з Інтернету або списків із Windows у "
+#~ "документи (наприклад, Word, Excel або Outlook) без втрати форматування чи "
+#~ "макета."
+
+#~ msgid ""
+#~ "\n"
+#~ "* **Improved Large List Handling:** Copying large list controls "
+#~ "(specifically `SysListView32`) now reliably extracts all items while "
+#~ "preserving table formatting. This update bypasses previous limitations "
+#~ "caused by object virtualization, ensuring items outside the visible "
+#~ "screen are no longer skipped.\n"
+#~ "* **Reliable Column Selection:** Column-specific copying commands have "
+#~ "been updated to work consistently within extensive lists. You can now "
+#~ "copy specific columns from large lists without experiencing silent "
+#~ "failures or missing data.\n"
+#~ "* **64-bit Architecture Stability:** Resolved a memory pointer truncation "
+#~ "issue during Win32 API operations. Background data extraction is now "
+#~ "fully stable and compatible with modern 64-bit NVDA architectures.\n"
+#~ msgstr ""
+#~ "\n"
+#~ "* **Покращена обробка великих списків:** Копіювання елементів керування "
+#~ "великими списками (зокрема `SysListView32`) тепер надійно витягує всі "
+#~ "елементи, зберігаючи форматування таблиці. Це оновлення обходить "
+#~ "попередні обмеження, спричинені віртуалізацією об’єктів, гарантуючи, що "
+#~ "елементи поза межами видимої частини екрана більше не пропускаються.\n"
+#~ "* **Надійний вибір стовпців:** Команди копіювання окремих стовпців "
+#~ "оновлено для стабільної роботи у великих списках. Тепер ви можете "
+#~ "копіювати певні стовпці з великих списків, не стикаючись із прихованими "
+#~ "помилками або втратою даних.\n"
+#~ "* **Стабільність 64-розрядної архітектури:** Вирішено проблему усічення "
+#~ "покажчика пам'яті під час операцій Win32 API. Фонове витягнення даних "
+#~ "тепер повністю стабільне та сумісне із сучасними 64-розрядними "
+#~ "архітектурами NVDA.\n"
 
 #~ msgid ""
 #~ "\n"

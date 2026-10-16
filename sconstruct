@@ -14,7 +14,7 @@ from typing import Final
 # Linters aren't aware about them.
 # To avoid PyRight `reportUndefinedVariable` errors about them they are imported explicitly.
 # When using other  Scons functions please add them to the line below.
-from SCons.Script import EnsurePythonVersion, Variables, BoolVariable, Environment, Copy
+from SCons.Script import EnsurePythonVersion, Variables, BoolVariable, Environment, Copy, Action
 
 # Imports for type hints
 from SCons.Node import FS
@@ -149,3 +149,20 @@ env.Depends(manifest, "buildVars.py")
 env.Depends(addon, manifest)
 env.Default(addon)
 env.Clean(addon, [".sconsign.dblite", "addon/doc/" + buildVars.baseLanguage + "/"])
+poFiles: list[FS.File] = [dir.File(os.path.join("LC_MESSAGES", "nvda.po")) for dir in langDirs]
+
+
+def _updatePoFiles(target, source, env):
+	import subprocess
+
+	potFile = str(source[0])
+	for poFile in poFiles:
+		print(f"Updating {poFile}")
+		subprocess.run(
+			["msgmerge", "--update", "--backup=off", str(poFile), potFile],
+			check=True,
+		)
+
+
+updatePo = env.Alias("updatePo", pot, Action(_updatePoFiles, "Updating .po files from $SOURCE"))
+env.AlwaysBuild(updatePo)

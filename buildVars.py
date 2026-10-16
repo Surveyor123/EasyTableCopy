@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Build customizations
 # Change this file instead of sconstruct or manifest files, whenever possible.
 
@@ -18,20 +19,23 @@ addon_info = AddonInfo(
 	addon_description=_("""EasyTableCopy lets you copy tables, lists, and grids from the Web, desktop apps, and Windows Explorer into Word, Excel, or Outlook — with formatting intact. Mark specific rows or columns to copy, grab a single cell, flatten a tree view, or copy an entire folder listing, all with a keystroke."""),
 	
 	# version
-	addon_version="2026.7.1",
+	addon_version="2026.7.2",
 	
 	# Brief changelog for this version
 	# Translators: what's new content for the add-on version
 	addon_changelog=_("""
-## Changed
-- Improved reliability of quick/manual copy operations (marked rows/columns,
-  cell copy, tree copy, list copy, SysListView32 lists) when the system
-  clipboard is briefly held by another process. EasyTableCopy now retries a
-  few times before giving up, instead of immediately reporting
-  "Copy failed." This should eliminate occasional spurious copy failures
-  caused by transient clipboard contention.
+### New
+* Added "Copy Table (Reconstructed, with Vertical Bars)" to the Table Copy
+  Menu. It copies the table with " | " between columns in the plain-text
+  version, which keeps column boundaries clear when pasting into text-only
+  applications. The existing "Copy Table (Reconstructed)" option is unchanged.
+* Every Table Copy Menu command can now be assigned its own gesture in
+  NVDA menu > Preferences > Input gestures > EasyTableCopy. No gestures are
+  assigned by default. These commands work in web browse mode.
 
-- Ensure 2026.2 compatibility.
+### Changes
+* Removed the "Cancel" item from the Table Copy Menu. Press Escape or switch
+  to another window to close the menu.
 """),
 	
 	# Author(s)
